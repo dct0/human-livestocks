@@ -19,6 +19,8 @@ enum MessageType {
 model Member {
   id        String    @id @default(cuid())
   username  String    @unique
+  stock     Decimal   @default(100) // a member's current stock value
+  rate      Decimal   @default(1) // multiplier for modifying stock value
   messages  Message[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -29,9 +31,11 @@ model Message {
   type        MessageType
   content     String
   attachments String[]
-  score       Int
+  score       Decimal
   createdBy   Member?     @relation(fields: [createdById], references: [id])
   createdById String?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+  guildId     String?
+  channelId   String
 }

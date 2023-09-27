@@ -1,4 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { type ExtendedPrismaClient, prisma } from "./prisma";
+
 import { LogLevel, SapphireClient, container } from "@sapphire/framework";
 import { GatewayIntentBits, OAuth2Scopes } from "discord.js";
 
@@ -32,12 +33,12 @@ export default class Client extends SapphireClient {
   }
 
   public override async login(token?: string) {
-    container.database = new PrismaClient();
+    container.db = prisma;
     return super.login(token);
   }
 
   public override async destroy() {
-    await container.database.$disconnect();
+    await container.db.$disconnect();
     return super.destroy();
   }
 }
@@ -45,6 +46,6 @@ export default class Client extends SapphireClient {
 declare module "@sapphire/pieces" {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface Container {
-    database: PrismaClient;
+    db: ExtendedPrismaClient;
   }
 }
