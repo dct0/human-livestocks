@@ -17,6 +17,7 @@
       "n/file-extension-in-import": "off",
       "n/prefer-global/process": "off",
       "unicorn/no-process-exit": "off",
+      "unicorn/no-array-reduce": "off",
       "import/no-unassigned-import": "off",
       "import/extensions": "off",
       "import/order": [

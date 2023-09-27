@@ -1,3 +1,4 @@
+import { Decimal } from "@prisma/client/runtime/library";
 import { Events, Listener } from "@sapphire/framework";
 import { type Message } from "discord.js";
 
@@ -14,7 +15,7 @@ export class MessageCreateListener extends Listener {
 
     if (!message.inGuild()) return;
 
-    const memberStock = await this.container.db.member.getStock(
+    const memberStock = await this.container.db.stockPrice.getLatest(
       message.author.id,
     );
 
@@ -22,11 +23,17 @@ export class MessageCreateListener extends Listener {
     const score = Math.random() * 10 - 5; // Score of the message is between -5 and 5
 
     if (memberStock) {
-      const newRate = memberStock.rate.add(score * 0.1);
+      const newRate = await this.container.db.member.calculateNewRate(
+        message.author.id,
+        new Decimal(score),
+      );
 
-      await this.container.db.member.updateStock(message.author.id, newRate);
+      await this.container.db.stockPrice.addToMember(
+        message.author.id,
+        newRate,
+      );
     }
 
-    void this.container.db.message.createMessage(message, score);
+    void this.container.db.message.add(message, score);
   }
 }
