@@ -23,7 +23,7 @@ export class MessageCreateListener extends Listener {
     const score = Math.random() * 10 - 5; // Score of the message is between -5 and 5
 
     if (memberStock) {
-      const newRate = await this.container.db.member.calculateNewRate(
+      const newRate = await this.container.db.stockPrice.getNewRate(
         message.author.id,
         new Decimal(score),
       );

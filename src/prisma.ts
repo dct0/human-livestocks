@@ -1,42 +1,14 @@
-import { REVERSION_FACTOR, WINDOW_SIZE } from "./constants/stocks";
-import { calculateBias } from "./utils/stocks";
+import { WINDOW_SIZE } from "./constants/stocks";
+import { calculateNewRate } from "./utils/stocks";
 
 import { PrismaClient } from "@prisma/client";
-import { Decimal } from "@prisma/client/runtime/library";
+import { type Decimal } from "@prisma/client/runtime/library";
 import { type Message } from "discord.js";
 
 export const prisma = new PrismaClient().$extends({
   name: "customMethods",
   model: {
-    member: {
-      async calculateNewRate(id: string, score: Decimal) {
-        // Get 20 most recent messages
-        const messages = await prisma.message.findMany({
-          take: WINDOW_SIZE,
-          orderBy: {
-            createdAt: "desc",
-          },
-          select: {
-            score: true,
-          },
-        });
-
-        // Average the scores
-        const average = messages
-          .reduce((acc, curr) => acc.add(curr.score), new Decimal(0))
-          .div(WINDOW_SIZE);
-
-        const deviation = average.sub(score);
-
-        const reversionAmount = deviation.mul(REVERSION_FACTOR);
-        const biasAmount = calculateBias(score, deviation);
-
-        const newRate = reversionAmount.add(biasAmount);
-
-        // Calculate the new rate
-        return newRate;
-      },
-    },
+    member: {},
     message: {
       async add(message: Message, score: number) {
         return prisma.message.create({
@@ -86,6 +58,21 @@ export const prisma = new PrismaClient().$extends({
             },
           },
         });
+      },
+      async getNewRate(id: string, score: Decimal) {
+        // Get 20 most recent messages
+        const stockPrices = await prisma.stockPrice.findMany({
+          take: WINDOW_SIZE,
+          orderBy: {
+            createdAt: "desc",
+          },
+          where: {
+            memberId: id,
+          },
+        });
+
+        // Calculate the new rate
+        return calculateNewRate(stockPrices, score);
       },
     },
   },
