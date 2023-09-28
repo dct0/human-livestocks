@@ -30,7 +30,7 @@ describe("Stocks", () => {
     );
   });
 
-  it.only("should calculate the new rate given the supplied past stocks and score", () => {
+  it("should calculate the new rate given the supplied past stocks and score", () => {
     expect(calculateNewRate(pastStocks, new Decimal(0.5)).toPrecision(3)).toBe(
       "0.495",
     );
