@@ -25,6 +25,10 @@ export default class Client extends SapphireClient {
             process.env.NODE_ENV === "development" ? "127.0.0.1" : undefined,
         },
         prefix: "api/",
+        origin: "*",
+        listenOptions: {
+          port: process.env.API_PORT,
+        },
       },
       hmr: {
         enabled: process.env.NODE_ENV === "development",

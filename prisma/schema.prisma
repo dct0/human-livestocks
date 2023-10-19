@@ -11,31 +11,36 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-enum MessageType {
-  WORST
-  BEST
-}
-
 model Member {
-  id        String    @id @default(cuid())
-  username  String    @unique
-  stock     Decimal   @default(100) // a member's current stock value
-  rate      Decimal   @default(1) // multiplier for modifying stock value
-  messages  Message[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          String       @id @default(cuid())
+  username    String       @unique
+  rate        Decimal      @default(1) // multiplier for modifying stock value
+  messages    Message[]
+  stockPrices StockPrice[] // stores past and current stock price
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Message {
-  id          String      @id @default(cuid())
-  type        MessageType
+  id          String   @id @default(cuid())
   content     String
   attachments String[]
   score       Decimal
-  createdBy   Member?     @relation(fields: [createdById], references: [id])
+  createdBy   Member?  @relation(fields: [createdById], references: [id], onDelete: SetNull)
   createdById String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
   guildId     String?
   channelId   String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StockPrice {
+  id    String  @id @default(cuid())
+  price Decimal
+
+  createdAt DateTime @default(now())
+  member    Member?  @relation(fields: [memberId], references: [id])
+  memberId  String?
 }
