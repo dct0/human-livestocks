@@ -7,9 +7,7 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "start": "node dist/index.js",
-    "lint": "eslint \"**/*.ts*\"",
-    "generate": "prisma generate",
-    "push": "prisma db push"
+    "lint": "eslint \"**/*.ts*\""
   },
   "dependencies": {
     "@sapphire/discord.js-utilities": "^7.0.2",

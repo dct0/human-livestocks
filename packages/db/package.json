@@ -3,6 +3,11 @@
   "license": "MIT",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "generate": "prisma generate",
+    "studio": "prisma studio",
+    "push": "prisma db push"
+  },
   "devDependencies": {
     "discord.js": "~14.13.0",
     "eslint-config-custom": "workspace:*",
