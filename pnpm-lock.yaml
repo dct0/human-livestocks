@@ -27,7 +27,7 @@ dependencies:
     specifier: ^3.0.6
     version: 3.0.6
   discord-api-types:
-    specifier: 0.37.x
+    specifier: 0.37.57
     version: 0.37.57
   discord.js:
     specifier: ~14.13.0

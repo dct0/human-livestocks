@@ -47,7 +47,7 @@
     "@sapphire/plugin-api": "^5.1.1",
     "@sapphire/plugin-hmr": "^2.0.2",
     "@sapphire/plugin-logger": "^3.0.6",
-    "discord-api-types": "0.37.x",
+    "discord-api-types": "0.37.57",
     "discord.js": "~14.13.0",
     "dotenv": "^16.3.1",
     "zod": "^3.22.2"
