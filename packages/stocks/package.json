@@ -1,0 +1,13 @@
+{
+  "name": "stocks",
+  "license": "MIT",
+  "version": "0.0.0",
+  "private": true,
+  "devDependencies": {
+    "db": "workspace:*",
+    "eslint-config-custom": "workspace:*",
+    "type-fest": "^4.3.2",
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.5"
+  }
+}
