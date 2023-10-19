@@ -3,11 +3,17 @@
   "license": "MIT",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "test": "vitest run"
+  },
   "devDependencies": {
     "db": "workspace:*",
     "eslint-config-custom": "workspace:*",
     "type-fest": "^4.3.2",
     "typescript": "^5.2.2",
     "vitest": "^0.34.5"
+  },
+  "dependencies": {
+    "decimal.js": "^10.4.3"
   }
 }

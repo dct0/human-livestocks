@@ -1,8 +1,7 @@
-import { calculateAverage, calculateBias, calculateNewRate } from "../../utils";
-import { type HasPrice } from "../../types";
-
-import { Decimal } from "db/client/runtime/library";
+import { Decimal } from "decimal.js";
 import { beforeEach, describe, expect, it } from "vitest";
+import { type HasPrice } from "../../types";
+import { calculateAverage, calculateBias, calculateNewRate } from "../../utils";
 
 describe("Stocks", () => {
   let pastStocks: HasPrice[];

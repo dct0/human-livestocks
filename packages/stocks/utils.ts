@@ -1,4 +1,4 @@
-import { Decimal } from "db/client/runtime/library";
+import { Decimal } from "decimal.js";
 import { REVERSION_FACTOR } from "./constants";
 import { type HasPrice } from "./types";
 
