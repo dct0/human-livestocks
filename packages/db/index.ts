@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-import { type Decimal } from "@prisma/client/runtime/library";
+import { type Decimal } from "decimal.js";
 import { type Message } from "discord.js/typings";
+import { PrismaClient } from "./client";
 
 export const prisma = new PrismaClient().$extends({
   name: "customMethods",
