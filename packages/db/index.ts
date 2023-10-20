@@ -73,4 +73,3 @@ export const prisma = new PrismaClient().$extends({
 });
 
 export type ExtendedPrismaClient = typeof prisma;
-export * from "@prisma/client";
