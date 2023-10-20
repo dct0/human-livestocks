@@ -17,6 +17,7 @@
     "@sapphire/plugin-hmr": "^2.0.2",
     "@sapphire/plugin-logger": "^3.0.6",
     "db": "workspace:*",
+    "decimal.js": "^10.4.3",
     "discord-api-types": "0.37.60",
     "discord.js": "~14.13.0",
     "dotenv": "^16.3.1",

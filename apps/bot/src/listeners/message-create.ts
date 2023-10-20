@@ -1,4 +1,4 @@
-import { Decimal } from "db/client/runtime/library";
+import { Decimal } from "decimal.js";
 import { Events, Listener } from "@sapphire/framework";
 import { type Message } from "discord.js";
 import { calculateNewRate } from "stocks";

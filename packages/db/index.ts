@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { type Decimal } from "@prisma/client/runtime/library";
+import { type Decimal } from "decimal.js";
 import { type Message } from "discord.js/typings";
 
 export const prisma = new PrismaClient().$extends({
