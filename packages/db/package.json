@@ -6,7 +6,8 @@
   "scripts": {
     "generate": "prisma generate",
     "studio": "prisma studio",
-    "push": "prisma db push"
+    "push": "prisma db push",
+    "migrate": "prisma migrate dev"
   },
   "devDependencies": {
     "discord.js": "~14.13.0",

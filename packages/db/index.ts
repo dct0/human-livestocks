@@ -56,7 +56,7 @@ export const prisma = new PrismaClient().$extends({
           },
         });
       },
-      async getByMember(id: string, limit: number) {
+      async getByMember(memberId: string, limit: number) {
         // Get 20 most recent messages
         return await prisma.stockPrice.findMany({
           take: limit,
@@ -64,7 +64,7 @@ export const prisma = new PrismaClient().$extends({
             createdAt: "desc",
           },
           where: {
-            memberId: id,
+            memberId,
           },
         });
       },
