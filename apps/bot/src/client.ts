@@ -1,5 +1,5 @@
-import { type ExtendedPrismaClient, prisma } from "db";
 import { LogLevel, SapphireClient, container } from "@sapphire/framework";
+import { prisma } from "db";
 import { GatewayIntentBits, OAuth2Scopes } from "discord.js";
 
 export class Client extends SapphireClient {
@@ -57,11 +57,5 @@ export class Client extends SapphireClient {
   public override async destroy(): Promise<void> {
     await container.db.$disconnect();
     return super.destroy();
-  }
-}
-
-declare module "@sapphire/pieces" {
-  interface Container {
-    db: ExtendedPrismaClient;
   }
 }

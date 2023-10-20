@@ -7,17 +7,11 @@ export class StocksTask extends ScheduledTask {
   ) {
     super(context, {
       ...options,
-      interval: 5_000, // 30 seconds
+      interval: 3_0000 * 60, // 30 minutes
     });
   }
 
   public run(): void {
     this.container.logger.info("Interval task ran!");
-  }
-}
-
-declare module "@sapphire/plugin-scheduled-tasks" {
-  interface ScheduledTasks {
-    stocks: never;
   }
 }
