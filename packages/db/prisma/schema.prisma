@@ -12,16 +12,27 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model Member {
-  id            String       @id @default(cuid())
-  username      String       @unique
-  rate          Decimal      @default(1) // multiplier for modifying stock value
-  messages      Message[]
-  stockPrices   StockPrice[] // stores past and current stock price
-  lastCronnedAt DateTime? // last time cron job was run for this member
+model Guild {
+  id            String    @id @default(cuid())
+  name          String
+  members       Member[]
+  lastCronnedAt DateTime? // last time cron job was run for this guild
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Member {
+  id          String       @id @default(cuid())
+  username    String       @unique
+  rate        Decimal      @default(1) // multiplier for modifying stock value
+  messages    Message[]
+  stockPrices StockPrice[] // stores past and current stock price
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  guild     Guild    @relation(fields: [guildId], references: [id])
+  guildId   String
 }
 
 model Message {

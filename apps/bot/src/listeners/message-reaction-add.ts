@@ -10,10 +10,7 @@ export class MessageReactionAdd extends Listener {
     });
   }
 
-  public async run(
-    messageReaction: MessageReaction,
-    user: User,
-  ): Promise<void> {
+  public run(messageReaction: MessageReaction, user: User): void {
     this.container.logger.info(
       `Reaction received: ${getEmojiName(messageReaction.emoji)} from ${
         user.username
@@ -24,7 +21,7 @@ export class MessageReactionAdd extends Listener {
 
     const sentiment = getSentimentFromEmoji(messageReaction.emoji);
 
-    await this.container.db.message.update({
+    void this.container.db.message.update({
       where: {
         id: messageReaction.message.id,
         createdById: user.id,

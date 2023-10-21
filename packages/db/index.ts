@@ -8,6 +8,8 @@ export const prisma = new PrismaClient().$extends({
     member: {},
     message: {
       async add(message: Message, score: number) {
+        if (!message.guild) throw new Error("Message is not in a guild");
+
         return prisma.message.create({
           data: {
             id: message.id,
@@ -24,6 +26,17 @@ export const prisma = new PrismaClient().$extends({
                 create: {
                   id: message.author.id,
                   username: message.author.username,
+                  guild: {
+                    connectOrCreate: {
+                      where: {
+                        id: message.guild.id,
+                      },
+                      create: {
+                        id: message.guild.id,
+                        name: message.guild.name,
+                      },
+                    },
+                  },
                 },
               },
             },
