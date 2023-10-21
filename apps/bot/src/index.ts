@@ -8,7 +8,7 @@ import { Client } from "./client";
 import "@sapphire/plugin-api/register";
 import "@sapphire/plugin-hmr/register";
 import "@sapphire/plugin-logger/register";
-import "@sapphire/plugin-scheduled-tasks/register";
+// import "@sapphire/plugin-scheduled-tasks/register";
 
 const env = envSchema.safeParse(process.env);
 

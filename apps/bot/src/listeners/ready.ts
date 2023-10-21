@@ -13,7 +13,6 @@ export class ReadyListener extends Listener {
   public run(client: Client): void {
     if (!client.user) return;
     const { username, id } = client.user;
-    void this.container.tasks.createRepeated();
     this.container.logger.info(`Successfully logged in as ${username} (${id})`);
   }
 }

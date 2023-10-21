@@ -29,20 +29,20 @@ export class Client extends SapphireClient {
           port: process.env.API_PORT,
         },
       },
-      tasks: {
-        /* You can add your Bull options here, for example we can configure custom Redis connection options: */
-        bull: {
-          connection: {
-            host: process.env.REDIS_HOST,
-            port: process.env.REDIS_PORT,
-            password: process.env.REDIS_PASSWORD,
-            db: 0,
-            tls: {
-              secureProtocol: "TLS_method",
-            },
-          },
-        },
-      },
+      // tasks: {
+      //   /* You can add your Bull options here, for example we can configure custom Redis connection options: */
+      //   bull: {
+      //     connection: {
+      //       host: process.env.REDIS_HOST,
+      //       port: process.env.REDIS_PORT,
+      //       password: process.env.REDIS_PASSWORD,
+      //       db: 0,
+      //       tls: {
+      //         secureProtocol: "TLS_method",
+      //       },
+      //     },
+      //   },
+      // },
       hmr: {
         enabled: process.env.NODE_ENV === "development",
       },
