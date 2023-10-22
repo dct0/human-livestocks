@@ -18,6 +18,7 @@
     "@trpc/react-query": "^10.37.1",
     "@trpc/server": "^10.37.1",
     "db": "workspace:*",
+    "decimal.js": "^10.4.3",
     "next": "^13.5.4",
     "next-auth": "^4.23.0",
     "react": "18.2.0",

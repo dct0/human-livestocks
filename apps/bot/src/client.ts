@@ -1,6 +1,6 @@
 import { LogLevel, SapphireClient, container } from "@sapphire/framework";
-import { prisma } from "db";
 import { GatewayIntentBits, OAuth2Scopes } from "discord.js";
+import { db } from "./db";
 
 export class Client extends SapphireClient {
   public constructor() {
@@ -50,7 +50,7 @@ export class Client extends SapphireClient {
   }
 
   public override async login(token?: string): Promise<string> {
-    container.db = prisma;
+    container.db = db;
     return super.login(token);
   }
 
