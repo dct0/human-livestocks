@@ -1,6 +1,6 @@
 import { type Decimal } from "decimal.js";
 import { type Message } from "discord.js/typings";
-import { PrismaClient } from "./client";
+import { PrismaClient } from "@prisma/client";
 
 export const prisma = new PrismaClient().$extends({
   name: "customMethods",
@@ -86,3 +86,4 @@ export const prisma = new PrismaClient().$extends({
 });
 
 export type ExtendedPrismaClient = typeof prisma;
+export * from "@prisma/client";

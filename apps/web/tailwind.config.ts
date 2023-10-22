@@ -1,8 +1,8 @@
-/* eslint-disable prefer-named-capture-group -- rage */
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import { type Config } from "tailwindcss";
+
+export default {
   content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
     "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
@@ -91,7 +91,7 @@ module.exports = {
         "tremor-full": "9999px",
       },
       fontSize: {
-        "tremor-label": ["0.75rem"],
+        "tremor-label": ["0.75rem", {}],
         "tremor-default": ["0.875rem", { lineHeight: "1.25rem" }],
         "tremor-title": ["1.125rem", { lineHeight: "1.75rem" }],
         "tremor-metric": ["1.875rem", { lineHeight: "2.25rem" }],
@@ -127,5 +127,6 @@ module.exports = {
         /^(fill-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
     },
   ],
+  // eslint-disable-next-line import/no-extraneous-dependencies
   plugins: [require("@headlessui/tailwindcss")],
-};
+} satisfies Config;
