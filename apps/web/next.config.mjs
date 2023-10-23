@@ -6,7 +6,7 @@ await import("./src/env.mjs");
 
 /** @type {import("next").NextConfig} */
 const config = {
-  transpilePackages: ["ui"],
+  transpilePackages: ["db", "ui"],
   output: "standalone",
 };
 
