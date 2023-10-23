@@ -1,5 +1,5 @@
-import { Decimal } from "db/client/runtime/library";
 import { Events, Listener } from "@sapphire/framework";
+import { Decimal } from "decimal.js";
 import { type Message } from "discord.js";
 import { calculateNewRate } from "stocks";
 
@@ -16,12 +16,12 @@ export class MessageCreateListener extends Listener {
 
     if (!message.inGuild()) return;
 
+    // TODO: conduct some analysis on the message to determine the score
+    const score = Math.random() * 10 - 5; // Score of the message is between -5 and 5
+
     const memberStock = await this.container.db.stockPrice.getLatest(
       message.author.id,
     );
-
-    // TODO: conduct some analysis on the message to determine the score
-    const score = Math.random() * 10 - 5; // Score of the message is between -5 and 5
 
     if (memberStock) {
       const recent = await this.container.db.stockPrice.getByMember(

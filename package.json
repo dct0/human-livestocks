@@ -5,9 +5,9 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "generate": "pnpm --filter db generate",
-    "studio": "pnpm --filter db studio",
-    "push": "pnpm --filter db push"
+    "db:generate": "pnpm --filter db db:generate",
+    "db:studio": "pnpm --filter db db:studio",
+    "db:push": "pnpm --filter db db:push"
   },
   "devDependencies": {
     "eslint": "^8.51.0",

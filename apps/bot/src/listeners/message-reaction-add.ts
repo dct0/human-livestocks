@@ -1,6 +1,6 @@
 import { Events, Listener } from "@sapphire/framework";
 import { type MessageReaction, type User } from "discord.js";
-import { getEmojiName } from "../utils/reactions";
+import { getEmojiName, getSentimentFromEmoji } from "../utils/reactions";
 
 export class MessageReactionAdd extends Listener {
   public constructor(context: Listener.Context, options: Listener.Options) {
@@ -16,5 +16,21 @@ export class MessageReactionAdd extends Listener {
         user.username
       }`,
     );
+
+    if (user.bot || !messageReaction.message.inGuild()) return;
+
+    const sentiment = getSentimentFromEmoji(messageReaction.emoji);
+
+    void this.container.db.message.update({
+      where: {
+        id: messageReaction.message.id,
+        createdById: user.id,
+      },
+      data: {
+        score: {
+          multiply: sentiment * 1.25 * messageReaction.count ** 0.5,
+        },
+      },
+    });
   }
 }
