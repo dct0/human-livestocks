@@ -13,7 +13,7 @@ const prismaClientSingleton = () => {
   }).$extends(sharedMethods);
 };
 
-type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
+export type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
 
 export const db = globalForPrisma.prisma ?? prismaClientSingleton();
 

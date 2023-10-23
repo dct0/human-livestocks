@@ -13,6 +13,9 @@ import {
 } from "@tremor/react";
 import StockChart from "./_components/stock-chart";
 
+// https://github.com/t3-oss/create-t3-app/issues/1599
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const hello = await api.post.hello.query({ text: "from tRPC" });
   const stocks = await api.stocks.get.query({});

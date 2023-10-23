@@ -7,7 +7,8 @@ import {
 import DiscordProvider from "next-auth/providers/discord";
 
 import { env } from "@/env.mjs";
-import { db } from "@/server/db";
+import { type PrismaClientSingleton, db } from "@/server/db";
+import { type PrismaClient } from "db";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -30,6 +31,11 @@ declare module "next-auth" {
   // }
 }
 
+// https://github.com/nextauthjs/next-auth/issues/6078#issuecomment-1435940753
+const CustomPrismaAdapter = (prisma: PrismaClientSingleton) => {
+  return PrismaAdapter(prisma as unknown as PrismaClient);
+};
+
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
  *
@@ -45,7 +51,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
-  adapter: PrismaAdapter(db),
+  adapter: CustomPrismaAdapter(db),
   providers: [
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
