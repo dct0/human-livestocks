@@ -28,4 +28,5 @@ RUN adduser --system --uid 1001 discordjs
 USER discordjs
 COPY --from=installer /app .
 
-CMD node apps/bot/dist/index.js
+# it needs the package.json context to load shit
+CMD cd apps/bot && pnpm start
