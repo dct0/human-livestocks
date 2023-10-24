@@ -1,12 +1,17 @@
 import { type GuildEmoji, type ReactionEmoji } from "discord.js";
 import { badReactions, goodReactions } from "../constants/reactions";
 
-export const getEmojiName = (
+export const getEmojiDiscriminator = (
   emoji: GuildEmoji | ReactionEmoji,
-): string | undefined => {
+): string => {
+  return emoji.id ? emoji.id : emoji.identifier;
+};
+
+export const getEmojiName = (emoji: GuildEmoji | ReactionEmoji): string => {
   // If server emoji
   if (emoji.id) {
-    return emoji.identifier.split(":")[1];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- always on a guild emoji
+    return emoji.name!;
   }
 
   return emoji.identifier;

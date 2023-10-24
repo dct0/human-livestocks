@@ -1,6 +1,7 @@
 import { Events, Listener } from "@sapphire/framework";
+import { ImpressionType } from "db";
 import { type MessageReaction, type User } from "discord.js";
-import { getEmojiName, getSentimentFromEmoji } from "../utils/reactions";
+import { getEmojiDiscriminator, getEmojiName } from "../utils/reactions";
 
 export class MessageReactionRemove extends Listener {
   public constructor(context: Listener.Context, options: Listener.Options) {
@@ -19,17 +20,15 @@ export class MessageReactionRemove extends Listener {
 
     if (user.bot || !messageReaction.message.inGuild()) return;
 
-    const sentiment = getSentimentFromEmoji(messageReaction.emoji);
-
-    void this.container.db.message.update({
+    // This should only ever delete one
+    void this.container.db.impressions.deleteMany({
       where: {
-        id: messageReaction.message.id,
-        createdById: user.id,
-      },
-      data: {
-        score: {
-          divide: sentiment * 1.25 * messageReaction.count ** 0.5,
+        type: ImpressionType.REACTION,
+        discriminator: getEmojiDiscriminator(messageReaction.emoji),
+        createdBy: {
+          id: user.id,
         },
+        message: { id: messageReaction.message.id },
       },
     });
   }
