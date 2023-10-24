@@ -16,14 +16,13 @@ FROM base AS installer
 # RUN apk update
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml .
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 COPY --from=builder /app/out/full/ .
-COPY turbo.json turbo.json
+COPY turbo.json .
 RUN pnpm run db:generate
 RUN pnpm turbo run build --filter=bot...
 
 FROM base AS runner
-WORKDIR /app
 RUN addgroup --system --gid 1001 discordjs
 RUN adduser --system --uid 1001 discordjs
 USER discordjs

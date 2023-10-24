@@ -12,6 +12,7 @@ services:
       - redis
     env_file:
       - ./apps/web/.env
+      - ./packages/db/.env
     ports:
       - "3000:3000"
 
@@ -35,6 +36,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=human_livestocks
+    ports:
+      - "5432:5432"
     volumes:
       - hmls_db:/var/lib/postgresql/data
 
