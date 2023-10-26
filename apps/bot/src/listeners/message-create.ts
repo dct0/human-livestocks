@@ -9,13 +9,13 @@ export class MessageCreateListener extends Listener {
     });
   }
 
-  public run(message: Message): void {
+  public async run(message: Message): Promise<void> {
     this.container.logger.info(`Message received: ${message.content}`);
 
     if (!message.inGuild()) return;
 
     const score = Math.random() * 6 - 3; // Score of the message is between -3 and 3
 
-    void this.container.db.message.add(message, score);
+    await this.container.db.message.add(message, score);
   }
 }

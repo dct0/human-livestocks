@@ -7,11 +7,11 @@ declare module "@sapphire/pieces" {
   }
 }
 
-// declare module "@sapphire/plugin-scheduled-tasks" {
-//   interface ScheduledTasks {
-//     stocks: never;
-//   }
-// }
+declare module "@sapphire/plugin-scheduled-tasks" {
+  interface ScheduledTasks {
+    stocks: never;
+  }
+}
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace -- rage
