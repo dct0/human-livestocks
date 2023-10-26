@@ -27,6 +27,7 @@ services:
       - redis
     env_file:
       - ./apps/bot/.env
+      - ./packages/db/.env
 
   db:
     image: postgres:alpine
