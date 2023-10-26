@@ -1,0 +1,64 @@
+import { ScheduledTask } from "@sapphire/plugin-scheduled-tasks";
+import { calculateNewRate } from "stocks";
+
+export class StocksTask extends ScheduledTask {
+  public constructor(
+    context: ScheduledTask.Context,
+    options: ScheduledTask.Options,
+  ) {
+    super(context, {
+      ...options,
+      interval: 3_0000 * 60, // 30 minutes
+    });
+  }
+
+  public async run(guildId: string): Promise<void> {
+    this.container.logger.info("Time to update stocks!");
+
+    // take all members and calculate the new stock price using message created since the lastCronnedAt
+    // update the stock price for each member
+    // update the lastCronnedAt for each member
+
+    const now = new Date();
+
+    const { lastCronnedAt } = await this.container.db.guild.findUniqueOrThrow({
+      where: {
+        id: guildId,
+      },
+    });
+
+    const members = await this.container.db.member.findMany({
+      include: {
+        messages: {
+          where: {
+            createdAt: {
+              gte: lastCronnedAt ?? new Date(0),
+            },
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+      },
+    });
+
+    for (const member of members) {
+      const recent = member.messages.map((message) => message.score);
+      const newRate = calculateNewRate(recent);
+
+      await this.container.db.stockPrice.addToMember(
+        message.author.id,
+        newRate,
+      );
+    }
+
+    await this.container.db.guild.update({
+      where: {
+        id: guildId,
+      },
+      data: {
+        lastCronnedAt: now,
+      },
+    });
+  }
+}

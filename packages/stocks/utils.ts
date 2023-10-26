@@ -15,14 +15,14 @@ export const calculateBias = (score: Decimal, deviation: Decimal): Decimal => {
 
 export const calculateReversion = (
   deviation: Decimal,
-  reversionFactor: Decimal.Value
+  reversionFactor: Decimal.Value,
 ): Decimal => {
   return deviation.mul(reversionFactor);
 };
 
 export const calculateNewRate = (
   pastStocks: HasPrice[],
-  score: Decimal
+  score: Decimal,
 ): Decimal => {
   const average = calculateAverage(pastStocks);
   const deviation = score.sub(average);

@@ -21,13 +21,13 @@ describe("Stocks", () => {
 
   it("should calculate the bias of the supplied score and deviation", () => {
     expect(calculateBias(new Decimal(0.5), new Decimal(0.5)).toNumber()).toBe(
-      1 / 3
+      1 / 3,
     );
   });
 
   it("should calculate the new rate given the supplied past stocks and score", () => {
     expect(calculateNewRate(pastStocks, new Decimal(0.5)).toPrecision(3)).toBe(
-      "0.495"
+      "0.495",
     );
   });
 });

@@ -13,11 +13,11 @@ export class UserRoute extends Route {
     });
   }
 
-  public [methods.GET](_request: ApiRequest, response: ApiResponse) {
+  public [methods.GET](_request: ApiRequest, response: ApiResponse): void {
     response.json({ message: "Hello World" });
   }
 
-  public [methods.POST](_request: ApiRequest, response: ApiResponse) {
+  public [methods.POST](_request: ApiRequest, response: ApiResponse): void {
     response.json({ message: "Hello World" });
   }
 }

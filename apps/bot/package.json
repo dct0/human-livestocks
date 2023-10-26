@@ -1,37 +1,38 @@
 {
   "name": "bot",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "ts-node src/index.ts",
-    "preview": "run-p watch start",
-    "build": "tsc",
-    "watch": "tsc --watch",
+    "dev": "tsc-watch --onSuccess \"node dist/index.js\"",
+    "build": "tsup-node",
     "start": "node dist/index.js",
     "lint": "eslint \"**/*.ts*\""
   },
   "dependencies": {
     "@sapphire/discord.js-utilities": "^7.0.2",
-    "@sapphire/framework": "^4.7.1",
+    "@sapphire/framework": "^4.7.2",
     "@sapphire/pieces": "^3.7.0",
-    "@sapphire/plugin-api": "^5.1.1",
+    "@sapphire/plugin-api": "^5.1.2",
     "@sapphire/plugin-hmr": "^2.0.2",
     "@sapphire/plugin-logger": "^3.0.6",
+    "@sapphire/plugin-scheduled-tasks": "^7.1.2",
+    "bullmq": "^4.12.5",
     "db": "workspace:*",
     "decimal.js": "^10.4.3",
-    "discord-api-types": "0.37.60",
+    "discord-api-types": "0.37.61",
     "discord.js": "~14.13.0",
     "dotenv": "^16.3.1",
     "stocks": "workspace:*",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/node": "^20.6.4",
+    "@types/node": "^20.8.9",
     "eslint-config-custom": "workspace:*",
     "npm-run-all": "^4.1.5",
-    "ts-node": "^10.9.1",
+    "tsc-watch": "^6.0.4",
     "tsconfig": "workspace:*",
-    "type-fest": "^4.3.2",
+    "tsup": "^7.2.0",
+    "type-fest": "^4.6.0",
     "typescript": "^5.2.2",
-    "vitest": "^0.34.5"
+    "vitest": "^0.34.6"
   }
 }

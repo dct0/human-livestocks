@@ -1,0 +1,61 @@
+version: "3.7"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+      args:
+        - TURBO_TEAM
+        - TURBO_TOKEN
+    container_name: hmls_web
+    restart: unless-stopped
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - ./apps/web/.env
+      - ./packages/db/.env
+    ports:
+      - "3000:3000"
+
+  bot:
+    build:
+      context: .
+      dockerfile: ./apps/bot/Dockerfile
+      args:
+        - TURBO_TEAM
+        - TURBO_TOKEN
+    container_name: hmls_bot
+    restart: unless-stopped
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - ./apps/bot/.env
+      - ./packages/db/.env
+
+  db:
+    image: postgres:alpine
+    container_name: hmls_db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=human_livestocks
+    ports:
+      - "5432:5432"
+    volumes:
+      - hmls_db:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+    container_name: hmls_redis
+    restart: unless-stopped
+    command: redis-server --save 60 1 --loglevel warning --requirepass root
+    volumes:
+      - hmls_redis:/data
+
+volumes:
+  hmls_redis:
+  hmls_db:
