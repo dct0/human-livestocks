@@ -5,6 +5,9 @@ services:
     build:
       context: .
       dockerfile: ./apps/web/Dockerfile
+      args:
+        - TURBO_TEAM
+        - TURBO_TOKEN
     container_name: hmls_web
     restart: unless-stopped
     depends_on:
@@ -20,6 +23,9 @@ services:
     build:
       context: .
       dockerfile: ./apps/bot/Dockerfile
+      args:
+        - TURBO_TEAM
+        - TURBO_TOKEN
     container_name: hmls_bot
     restart: unless-stopped
     depends_on:
@@ -27,6 +33,7 @@ services:
       - redis
     env_file:
       - ./apps/bot/.env
+      - ./packages/db/.env
 
   db:
     image: postgres:alpine

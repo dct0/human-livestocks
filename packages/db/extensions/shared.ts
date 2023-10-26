@@ -17,7 +17,7 @@ export default Prisma.defineExtension((client) => {
               baseScore,
               content: message.content,
               attachments: message.attachments.map(
-                (attachment) => attachment.url
+                (attachment) => attachment.url,
               ),
               createdBy: {
                 connectOrCreate: {
