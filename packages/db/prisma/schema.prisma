@@ -57,27 +57,43 @@ model Guild {
 }
 
 model Member {
-  id          String       @id @default(cuid())
-  username    String       @unique
-  rate        Decimal      @default(1) // multiplier for modifying stock value
+  id       String @id @default(cuid())
+  username String @unique
+
   messages    Message[]
   stockPrices StockPrice[] // stores past and current stock price
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  guild     Guild    @relation(fields: [guildId], references: [id])
-  guildId   String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  guild       Guild         @relation(fields: [guildId], references: [id])
+  guildId     String
+  impressions Impressions[]
 }
 
 model Message {
-  id          String   @id @default(cuid())
+  id          String        @id @default(cuid())
   content     String
   attachments String[]
-  score       Decimal
-  createdBy   Member?  @relation(fields: [createdById], references: [id], onDelete: SetNull)
-  createdById String?
-  guildId     String?
+  baseScore   Decimal
+  impressions Impressions[]
+  createdBy   Member        @relation(fields: [createdById], references: [id])
+  createdById String
+  guildId     String
   channelId   String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Impressions {
+  id            String         @id @default(cuid())
+  type          ImpressionType
+  discriminator String?
+  score         Decimal
+  message       Message        @relation(fields: [messageId], references: [id])
+  messageId     String
+  createdBy     Member         @relation(fields: [createdById], references: [id])
+  createdById   String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -88,6 +104,10 @@ model StockPrice {
   price Decimal
 
   createdAt DateTime @default(now())
-  member    Member?  @relation(fields: [memberId], references: [id])
-  memberId  String?
+  member    Member   @relation(fields: [memberId], references: [id])
+  memberId  String
+}
+
+enum ImpressionType {
+  REACTION
 }

@@ -8,13 +8,13 @@ export default Prisma.defineExtension((client) => {
     model: {
       member: {},
       message: {
-        async add(message: Message, score: number) {
+        async add(message: Message, baseScore: number) {
           if (!message.guild) throw new Error("Message is not in a guild");
 
           return client.message.create({
             data: {
               id: message.id,
-              score,
+              baseScore,
               content: message.content,
               attachments: message.attachments.map(
                 (attachment) => attachment.url,

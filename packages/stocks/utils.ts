@@ -2,10 +2,19 @@ import { Decimal } from "decimal.js";
 import { REVERSION_FACTOR } from "./constants";
 import { type HasPrice } from "./types";
 
-export const calculateAverage = (stocks: HasPrice[]): Decimal => {
-  return stocks
-    .reduce((acc, curr) => acc.add(curr.price), new Decimal(0))
-    .div(stocks.length);
+export const calculateAverage = (decimalList: Decimal[]): Decimal => {
+  return decimalList
+    .reduce((acc, curr) => acc.add(curr), new Decimal(0))
+    .div(decimalList.length);
+};
+
+export const calculateRMS = (decimalList: Decimal[]): Decimal => {
+  const average = calculateAverage(decimalList);
+  const squaredDifferences = decimalList.map((decimal) =>
+    decimal.sub(average).pow(2)
+  );
+  const averageSquaredDifference = calculateAverage(squaredDifferences);
+  return averageSquaredDifference.sqrt();
 };
 
 export const calculateBias = (score: Decimal, deviation: Decimal): Decimal => {
@@ -15,20 +24,27 @@ export const calculateBias = (score: Decimal, deviation: Decimal): Decimal => {
 
 export const calculateReversion = (
   deviation: Decimal,
-  reversionFactor: Decimal.Value,
+  reversionFactor: Decimal.Value
 ): Decimal => {
   return deviation.mul(reversionFactor);
 };
 
 export const calculateNewRate = (
   pastStocks: HasPrice[],
-  score: Decimal,
+  scores: Decimal[]
 ): Decimal => {
-  const average = calculateAverage(pastStocks);
-  const deviation = score.sub(average);
+  const stockPriceAverage = calculateAverage(
+    pastStocks.map((stock) => stock.price)
+  );
+  // const averageScore = calculateAverage(scores);
+
+  // weight the deviation by the volatility of the scores
+  const rmsScore = calculateRMS(scores);
+
+  const deviation = rmsScore.sub(stockPriceAverage);
 
   const reversionAmount = calculateReversion(deviation, REVERSION_FACTOR);
-  const biasAmount = calculateBias(score, deviation);
+  const biasAmount = calculateBias(rmsScore, deviation);
 
   const newRate = reversionAmount.add(biasAmount);
 
