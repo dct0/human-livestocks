@@ -8,7 +8,7 @@ export default defineConfig({
     "src/constants",
     "src/listeners",
     "src/routes",
-    // "src/scheduled-tasks", // add back when this works
+    "src/scheduled-tasks",
     "src/schemas",
     "src/types",
     "src/utils",

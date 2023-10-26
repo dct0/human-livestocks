@@ -1,5 +1,5 @@
 import { ScheduledTask } from "@sapphire/plugin-scheduled-tasks";
-import Decimal from "decimal.js";
+import { Decimal } from "decimal.js";
 import { calculateNewRate } from "stocks";
 
 export class StocksTask extends ScheduledTask {
