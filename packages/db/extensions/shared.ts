@@ -38,6 +38,11 @@ export default Prisma.defineExtension((client) => {
                         },
                       },
                     },
+                    stockPrices: {
+                      create: {
+                        price: 1,
+                      },
+                    },
                   },
                 },
               },
