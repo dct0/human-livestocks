@@ -12,7 +12,6 @@ RUN apk update
 
 FROM libc AS builder
 RUN pnpm add -g turbo
-
 COPY . .
 RUN turbo prune bot --docker
 
@@ -27,6 +26,7 @@ COPY turbo.json .
 RUN pnpm run db:generate
 RUN pnpm turbo run build --filter=bot...
 
+
 FROM libc AS proddeps
 ENV NODE_ENV=production
 COPY --from=builder /app/out/json/ .
@@ -36,12 +36,12 @@ RUN pnpm i --frozen-lockfile
 COPY --from=builder /app/out/full/ .
 RUN pnpm run db:generate
 
+
 FROM base AS runner
 LABEL org.opencontainers.image.source="https://github.com/dct0/human-livestocks"
 # ENV NODE_ENV=production
-
-RUN addgroup --system --gid 1001 discordjs
-RUN adduser --system --uid 1001 discordjs
+RUN addgroup --system --gid 1001 discordjs \
+    && adduser --system --uid 1001 discordjs
 USER discordjs
 
 COPY --from=proddeps /app/node_modules ./node_modules
