@@ -13,10 +13,10 @@
   "devDependencies": {
     "discord.js": "~14.13.0",
     "eslint-config-custom": "workspace:*",
-    "prisma": "^5.5.2",
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "prisma": "^5.5.2",
     "@prisma/client": "5.5.2",
     "decimal.js": "^10.4.3"
   }
