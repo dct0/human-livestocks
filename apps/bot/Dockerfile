@@ -21,6 +21,11 @@ COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml .
 RUN pnpm i --frozen-lockfile
 
+ARG TURBO_TEAM
+ENV TURBO_TEAM=$TURBO_TEAM
+ARG TURBO_TOKEN
+ENV TURBO_TOKEN=$TURBO_TOKEN
+
 COPY --from=builder /app/out/full/ .
 COPY turbo.json .
 RUN pnpm run db:generate

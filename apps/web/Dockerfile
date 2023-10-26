@@ -21,14 +21,20 @@ COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml .
 RUN pnpm i --frozen-lockfile
 
+ARG TURBO_TEAM
+ENV TURBO_TEAM=$TURBO_TEAM
+ARG TURBO_TOKEN
+ENV TURBO_TOKEN=$TURBO_TOKEN
+
 COPY --from=builder /app/out/full/ .
 COPY turbo.json .
+RUN pnpm run db:generate
 RUN pnpm turbo run build --filter=web...
 
 
 FROM base AS runner
 LABEL org.opencontainers.image.source="https://github.com/dct0/human-livestocks"
-# ENV NODE_ENV=production
+ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nextjs \
     && adduser --system --uid 1001 nextjs
 USER nextjs
