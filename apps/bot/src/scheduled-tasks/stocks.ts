@@ -10,7 +10,10 @@ export class StocksTask extends ScheduledTask {
     super(context, {
       ...options,
       name: "stocks-calculation",
-      pattern: "0 * * * *", // every o'clock
+      pattern: "0 * * * *", // every o'clock,
+      customJobOptions: {
+        jobId: "stocks-calculation", // ensure there's only one, for now...
+      },
     });
   }
 

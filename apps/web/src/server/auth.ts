@@ -43,13 +43,23 @@ const CustomPrismaAdapter = (prisma: PrismaClientSingleton) => {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    jwt({ token, account, user }) {
+      if (account) {
+        token.accessToken = account.access_token;
+        token.id = user?.id;
+      }
+      return token;
+    },
+    session: ({ session, user, token }) => {
+      console.log("token", token);
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+        },
+      };
+    },
   },
   adapter: CustomPrismaAdapter(db),
   providers: [

@@ -27,7 +27,9 @@ export default function RootLayout({
       <body className={`font-sans ${inter.variable}`}>
         <TRPCReactProvider headers={headers()}>
           <NavBar />
-          <main className="mx-auto min-h-screen pt-20">{children}</main>
+          <main className="mx-auto flex min-h-screen flex-col pt-20">
+            {children}
+          </main>
         </TRPCReactProvider>
       </body>
     </html>

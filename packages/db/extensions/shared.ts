@@ -75,12 +75,16 @@ export default Prisma.defineExtension((client) => {
             },
           });
         },
-        async getByMember(memberId: string, limit: number) {
+        async getByMember(
+          memberId: string,
+          limit: number,
+          orderBy?: Prisma.SortOrder
+        ) {
           // Get 20 most recent messages
           return await client.stockPrice.findMany({
             take: limit,
             orderBy: {
-              createdAt: "desc",
+              createdAt: orderBy ?? "desc",
             },
             where: {
               memberId,
