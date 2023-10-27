@@ -1,4 +1,5 @@
 "use client";
+import { providerToIconMap } from "@/lib/icons";
 import { Button } from "@tremor/react";
 import { type BuiltInProviderType } from "next-auth/providers";
 import {
@@ -19,8 +20,11 @@ export default function LoginPanel({
     <>
       {Object.values(providers).map((provider) => (
         <div key={provider.name}>
-          <Button onClick={() => signIn(provider.id)}>
-            Sign in with {provider.name}
+          <Button
+            onClick={() => signIn(provider.id)}
+            icon={providerToIconMap[provider.id]}
+          >
+            {provider.name}
           </Button>
         </div>
       ))}

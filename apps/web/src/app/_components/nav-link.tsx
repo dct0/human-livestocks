@@ -1,18 +1,19 @@
+"use client";
+
 import { cn } from "@/lib";
 import Link, { type LinkProps } from "next/link";
+import { usePathname } from "next/navigation";
 import { type AnchorHTMLAttributes } from "react";
 
-export type NavLinkProps = LinkProps &
-  AnchorHTMLAttributes<HTMLAnchorElement> & {
-    isActive?: boolean;
-  };
+export type NavLinkProps = LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>;
 
 export default function NavLink({
   className,
   children,
-  isActive,
   ...props
 }: NavLinkProps) {
+  const pathname = usePathname();
+  const isActive = pathname === props.href;
   return (
     <Link
       {...props}
