@@ -17,6 +17,7 @@
     "@trpc/next": "^10.42.0",
     "@trpc/react-query": "^10.42.0",
     "@trpc/server": "^10.42.0",
+    "clsx": "^2.0.0",
     "db": "workspace:*",
     "decimal.js": "^10.4.3",
     "next": "^13.5.6",
@@ -24,6 +25,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "superjson": "^2.2.0",
+    "tailwind-merge": "^1.14.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
