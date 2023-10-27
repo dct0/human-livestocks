@@ -1,6 +1,4 @@
-import { type QueueOptions } from "bullmq";
-
-export const bullConfig: QueueOptions = {
+export const bullConfig = {
   connection: {
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,

@@ -1,8 +1,8 @@
 import { LogLevel, SapphireClient, container } from "@sapphire/framework";
-import { Queue } from "bullmq";
+import { Redis } from "ioredis";
 import { GatewayIntentBits, OAuth2Scopes } from "discord.js";
 import { db } from "./db";
-import { bullConfig } from "./queue";
+import { bullConfig } from "./redis";
 
 export class Client extends SapphireClient {
   public constructor() {
@@ -44,18 +44,18 @@ export class Client extends SapphireClient {
 
   public override async login(token?: string): Promise<string> {
     // clear all repeated jobs
-    const queue = new Queue("obliterator", bullConfig);
-    await queue.obliterate();
-    await queue.disconnect();
+    const redis = new Redis(bullConfig.connection);
+    await redis.flushall();
+    await redis.quit();
 
     container.db = db;
     return super.login(token);
   }
 
   public override async destroy(): Promise<void> {
-    const queue = new Queue("obliterator", bullConfig);
-    await queue.obliterate();
-    await queue.disconnect();
+    const redis = new Redis(bullConfig.connection);
+    await redis.flushall();
+    await redis.quit();
 
     await container.db.$disconnect();
     return super.destroy();
