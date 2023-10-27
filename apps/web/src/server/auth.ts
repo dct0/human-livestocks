@@ -4,7 +4,9 @@ import {
   type DefaultSession,
   type NextAuthOptions,
 } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import DiscordProvider, {
+  type DiscordProfile,
+} from "next-auth/providers/discord";
 
 import { env } from "@/env.mjs";
 import { type PrismaClientSingleton, db } from "@/server/db";
@@ -25,6 +27,9 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface Profile extends DiscordProfile {}
+
   // interface User {
   //   // ...other properties
   //   // role: UserRole;
@@ -43,15 +48,29 @@ const CustomPrismaAdapter = (prisma: PrismaClientSingleton) => {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    jwt({ token, account, user }) {
-      if (account) {
-        token.accessToken = account.access_token;
-        token.id = user?.id;
+    signIn: async ({ profile }) => {
+      console.log("signIn", profile);
+      if (!profile) return false;
+      const id = profile.id;
+      const user = await db.user.findUnique({
+        where: { id },
+      });
+
+      if (!user) {
+        console.log("CREATING USER");
+        await db.user.create({
+          data: {
+            id: profile.id,
+            name: profile.name,
+            email: profile.email,
+            image: profile.image,
+          },
+        });
       }
-      return token;
+
+      return true;
     },
-    session: ({ session, user, token }) => {
-      console.log("token", token);
+    session: ({ session, user }) => {
       return {
         ...session,
         user: {
@@ -66,16 +85,14 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,
+      userinfo: "https://discord.com/api/users/@me",
+      authorization: {
+        params: {
+          scope: "identify email guilds",
+        },
+      },
+      allowDangerousEmailAccountLinking: true, // we'll only use discord so this is fine
     }),
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
   ],
   pages: {
     signIn: "/auth/login",

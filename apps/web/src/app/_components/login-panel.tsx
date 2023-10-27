@@ -21,7 +21,7 @@ export default function LoginPanel({
       {Object.values(providers).map((provider) => (
         <div key={provider.name}>
           <Button
-            onClick={() => signIn(provider.id)}
+            onClick={() => signIn(provider.id, { callbackUrl: "/" })}
             icon={providerToIconMap[provider.id]}
           >
             {provider.name}
