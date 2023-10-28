@@ -3,6 +3,7 @@ import { Title } from "@tremor/react";
 import Link from "next/link";
 import NavLink from "./nav-link";
 
+// TODO: Convert part of this to a client component?
 export default async function NavBar() {
   const session = await getServerAuthSession();
 

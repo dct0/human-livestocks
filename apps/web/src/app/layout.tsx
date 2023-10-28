@@ -12,6 +12,9 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
+// The downside to wrapping the entire app in a TRPCReactProvider here is that it makes EVERY single page SSR.
+// The NavBar also causes this because it checks auth state.
+// Ideally the landing page should be static, and the NavBar should be rendered client-side.
 export default function RootLayout({
   children,
 }: {
