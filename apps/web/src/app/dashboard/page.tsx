@@ -1,17 +1,25 @@
+import { getServerAuthSession } from "@/server/auth";
+import { api } from "@/trpc/server";
 import {
+  Card,
+  Grid,
+  Tab,
   TabGroup,
   TabList,
-  Tab,
-  TabPanels,
   TabPanel,
-  Grid,
-  Card,
+  TabPanels,
   Title,
 } from "@tremor/react";
+import AuthError from "../_components/error/auth-error";
 import StockChart from "../_components/stock-chart";
-import { api } from "@/trpc/server";
 
 export default async function Dashboard() {
+  const session = await getServerAuthSession();
+
+  if (!session) {
+    return <AuthError />;
+  }
+
   const stocks = await api.stocks.get.query({});
 
   return (

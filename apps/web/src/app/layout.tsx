@@ -1,15 +1,10 @@
 import "@/styles/globals.css";
 
-import { Inter } from "next/font/google";
+import { GeistMono, GeistSans } from "geist/font";
 import { headers } from "next/headers";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import NavBar from "./_components/nav-bar";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 export const metadata = {
   title: "Human Livestocks",
@@ -24,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         <TRPCReactProvider headers={headers()}>
           <NavBar />
           <main className="mx-auto flex min-h-screen flex-col pt-20">

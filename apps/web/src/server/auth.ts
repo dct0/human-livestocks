@@ -49,7 +49,6 @@ const CustomPrismaAdapter = (prisma: PrismaClientSingleton) => {
 export const authOptions: NextAuthOptions = {
   callbacks: {
     signIn: async ({ profile }) => {
-      console.log("signIn", profile);
       if (!profile) return false;
       const id = profile.id;
       const user = await db.user.findUnique({

@@ -1,5 +1,6 @@
 "use client";
-import { providerToIconMap } from "@/lib/icons";
+import { cn } from "@/lib";
+import { providerToColorMap, providerToIconMap } from "@/lib/icons";
 import { Button } from "@tremor/react";
 import { type BuiltInProviderType } from "next-auth/providers";
 import {
@@ -21,6 +22,7 @@ export default function LoginPanel({
       {Object.values(providers).map((provider) => (
         <div key={provider.name}>
           <Button
+            className={cn(providerToColorMap[provider.id])}
             onClick={() => signIn(provider.id, { callbackUrl: "/" })}
             icon={providerToIconMap[provider.id]}
           >
