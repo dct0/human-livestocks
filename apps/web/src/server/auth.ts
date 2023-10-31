@@ -51,21 +51,23 @@ export const authOptions: NextAuthOptions = {
     signIn: async ({ profile }) => {
       if (!profile) return false;
       const id = profile.id;
-      const user = await db.user.findUnique({
-        where: { id },
-      });
 
-      if (!user) {
-        console.log("CREATING USER");
-        await db.user.create({
-          data: {
-            id: profile.id,
-            name: profile.name,
-            email: profile.email,
-            image: profile.image,
-          },
-        });
-      }
+      await db.user.upsert({
+        create: {
+          id,
+          name: profile.name,
+          email: profile.email,
+          image: profile.image,
+        },
+        update: {
+          name: profile.name,
+          email: profile.email,
+          image: profile.image,
+        },
+        where: {
+          id,
+        },
+      });
 
       return true;
     },

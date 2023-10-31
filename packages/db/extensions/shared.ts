@@ -26,7 +26,17 @@ export default Prisma.defineExtension((client) => {
                   },
                   create: {
                     id: message.author.id,
-                    username: message.author.username,
+                    user: {
+                      connectOrCreate: {
+                        where: {
+                          id: message.author.id,
+                        },
+                        create: {
+                          id: message.author.id,
+                          name: message.author.username,
+                        },
+                      },
+                    },
                     guild: {
                       connectOrCreate: {
                         where: {

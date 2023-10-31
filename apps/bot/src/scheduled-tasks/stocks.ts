@@ -10,9 +10,9 @@ export class StocksTask extends ScheduledTask {
     super(context, {
       ...options,
       name: "stocks-calculation",
-      pattern: "0 * * * *", // every o'clock,
+      interval: 10_000, // 10 seconds
       customJobOptions: {
-        jobId: "stocks-calculation", // ensure there's only one, for now...
+        jobId: "stocks-calculation-test", // ensure there's only one, for now...
       },
     });
   }
@@ -37,6 +37,7 @@ export class StocksTask extends ScheduledTask {
       include: {
         messages: {
           where: {
+            guildId,
             createdAt: {
               gte: lastCronnedAt ?? new Date(0),
             },
@@ -82,12 +83,10 @@ export class StocksTask extends ScheduledTask {
       }
 
       // from the last 20 stock prices and the total scores for each message since the last cron, calculate new rate
-      const newRate = calculateNewRate(member.stockPrices, totalScores);
+      let newRate = calculateNewRate(member.stockPrices, totalScores);
       if (newRate.isNaN()) {
-        this.container.logger.warn(
-          `New rate for ${member.id} is NaN, probably because there are no messages since the last cron...`,
-        );
-        continue;
+        // should always be one stock price but just in case...
+        newRate = member.stockPrices[0]?.price.mul(0.95) ?? new Decimal(0);
       }
       membersToUpdate.push({
         id: member.id,
