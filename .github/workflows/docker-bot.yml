@@ -4,21 +4,24 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-push:
+    name: Build and Push
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      contents: read
+      packages: write
 
     steps:
     - uses: actions/checkout@v3
 
-    - name: 'Login to GitHub Container Registry'
+    - name: Login to GitHub Container Registry
       uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{github.actor}}
         password: ${{secrets.GITHUB_TOKEN}}
 
-    - name: 'Build the bot Docker image'
+    - name: Build the bot Docker image
       run: |
         docker build . --file ./apps/bot/Dockerfile -t ghcr.io/for-the-bit/hmls-bot:latest -t ghcr.io/for-the-bit/hmls-bot:$(git rev-parse --short "$GITHUB_SHA")
         docker push --all-tags ghcr.io/for-the-bit/hmls-bot
