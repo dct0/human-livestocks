@@ -1,3 +1,4 @@
+import { SiDiscordHex } from "@icons-pack/react-simple-icons";
 import { type Config } from "tailwindcss";
 
 export default {
@@ -9,7 +10,14 @@ export default {
     transparent: "transparent",
     current: "currentColor",
     extend: {
+      fontFamily: {
+        sans: ["var(--font-geist-sans)"],
+        mono: ["var(--font-geist-mono)"],
+      },
       colors: {
+        icon: {
+          discord: { DEFAULT: SiDiscordHex, hover: "#4555c2" },
+        },
         // light mode
         tremor: {
           brand: {

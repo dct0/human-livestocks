@@ -9,12 +9,17 @@ export class StocksTask extends ScheduledTask {
   ) {
     super(context, {
       ...options,
-      interval: 3_0000 * 60, // 30 minutes
+      name: "stocks-calculation",
+      pattern: "0 * * * *", // every o'clock,
+      customJobOptions: {
+        jobId: "stocks-calculation", // ensure there's only one, for now...
+      },
     });
   }
 
-  public async run(guildId: string): Promise<void> {
+  public async run(): Promise<void> {
     this.container.logger.info("Time to update stocks!");
+    const guildId = "286843424194166794";
 
     // take all members and calculate the new stock price using message created since the lastCronnedAt
     // update the stock price for each member
@@ -78,6 +83,12 @@ export class StocksTask extends ScheduledTask {
 
       // from the last 20 stock prices and the total scores for each message since the last cron, calculate new rate
       const newRate = calculateNewRate(member.stockPrices, totalScores);
+      if (newRate.isNaN()) {
+        this.container.logger.warn(
+          `New rate for ${member.id} is NaN, probably because there are no messages since the last cron...`,
+        );
+        continue;
+      }
       membersToUpdate.push({
         id: member.id,
         newRate,

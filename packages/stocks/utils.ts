@@ -33,6 +33,9 @@ export const calculateNewRate = (
   pastStocks: HasPrice[],
   scores: Decimal[]
 ): Decimal => {
+  if (!pastStocks.length || !scores.length) {
+    return new Decimal(NaN);
+  }
   const stockPriceAverage = calculateAverage(
     pastStocks.map((stock) => stock.price)
   );
