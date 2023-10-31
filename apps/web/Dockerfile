@@ -33,7 +33,7 @@ RUN pnpm turbo run build --filter=web...
 
 
 FROM base AS runner
-LABEL org.opencontainers.image.source="https://github.com/dct0/human-livestocks"
+LABEL org.opencontainers.image.source="https://github.com/for-the-bit/human-livestocks"
 ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nextjs \
     && adduser --system --uid 1001 nextjs
