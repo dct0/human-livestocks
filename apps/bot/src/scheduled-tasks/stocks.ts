@@ -19,11 +19,17 @@ export class StocksTask extends ScheduledTask {
 
   public async run(): Promise<void> {
     this.container.logger.info("Time to update stocks!");
-    const guildId = "286843424194166794";
+    const guilds = await this.container.db.guild.findMany({});
 
-    // take all members and calculate the new stock price using message created since the lastCronnedAt
-    // update the stock price for each member
-    // update the lastCronnedAt for each member
+    // TODO: a scheduled task for each guild
+    const query = guilds.map((guild) => this.updateStocksForGuild(guild.id));
+    await Promise.all(query);
+
+    this.container.logger.info("Stocks updated!");
+  }
+
+  private async updateStocksForGuild(guildId: string): Promise<void> {
+    this.container.logger.info(`Updating stocks for guild ${guildId}`);
 
     const now = new Date();
 
@@ -33,6 +39,7 @@ export class StocksTask extends ScheduledTask {
       },
     });
 
+    // find members to calculate stocks for
     const members = await this.container.db.member.findMany({
       include: {
         messages: {
@@ -115,5 +122,7 @@ export class StocksTask extends ScheduledTask {
         isolationLevel: "ReadUncommitted",
       },
     );
+
+    this.container.logger.info(`Updated stocks for guild ${guildId}`);
   }
 }
