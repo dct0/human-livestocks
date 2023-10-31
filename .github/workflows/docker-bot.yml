@@ -1,0 +1,24 @@
+name: Bot Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: 'Login to GitHub Container Registry'
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{github.actor}}
+        password: ${{secrets.GITHUB_TOKEN}}
+
+    - name: 'Build the bot Docker image'
+      run: |
+        docker build . --file /apps/bot/Dockerfile -t hmls-bot:latest -t hmls-bot:$(git rev-parse --short "$GITHUB_SHA")
+        docker push --all-tags ghcr.io/for-the-bit/hmls-bot
