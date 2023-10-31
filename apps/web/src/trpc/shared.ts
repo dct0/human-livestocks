@@ -7,10 +7,19 @@ export const transformer = superjson;
 
 function getBaseUrl() {
   if (typeof window !== "undefined") return "";
-  if (process.env.DEPLOY_URL) return process.env.DEPLOY_URL;
+
+  // Netlify
+  if (process.env.DEPLOY_PRIME_URL) return process.env.DEPLOY_PRIME_URL;
+  if (process.env.URL) return process.env.URL;
+
+  // Vercel
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+
+  // Docker
   if (process.env.INTERNAL_ADDRESS)
     return `http://${process.env.INTERNAL_ADDRESS}:${process.env.PORT ?? 3000}`;
+
+  // Local
   return `http://localhost:${process.env.PORT ?? 3000}`;
 }
 
