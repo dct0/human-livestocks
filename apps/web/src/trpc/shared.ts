@@ -8,14 +8,8 @@ export const transformer = superjson;
 function getBaseUrl() {
   if (typeof window !== "undefined") return "";
 
-  console.log("NETLIFY", process.env.NETLIFY);
-  console.log("NEXTAUTH_URL", process.env.NEXTAUTH_URL);
-  console.log("URL", process.env.URL);
-  console.log("DEPLOY_URL", process.env.DEPLOY_URL);
-
-  // Netlify -- dumb hack?
-  if (process.env.NETLIFY)
-    return `http://localhost:${process.env.PORT ?? 3000}`;
+  // Netlify -- dumb hack
+  if (process.env.FUCK_YOU) return process.env.NEXTAUTH_URL;
 
   // Vercel
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
