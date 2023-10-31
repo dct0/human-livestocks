@@ -10,9 +10,9 @@ export class StocksTask extends ScheduledTask {
     super(context, {
       ...options,
       name: "stocks-calculation",
-      interval: 10_000, // 10 seconds
+      pattern: "30 4 * * *", // at 4:30am server time every day, for now...
       customJobOptions: {
-        jobId: "stocks-calculation-test", // ensure there's only one, for now...
+        jobId: "stocks-calculation", // ensure there's only one, for now...
       },
     });
   }

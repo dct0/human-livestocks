@@ -14,7 +14,7 @@ export class MessageCreateListener extends Listener {
       `Message received (${message.id}): ${message.content}`,
     );
 
-    if (!message.inGuild() || message.author.bot) return; // allow specific bots later
+    if (!message.inGuild()) return; // whitelist bots later
 
     const score = Math.random() * 6 - 2; // Score of the message is between -2 and 4
 
