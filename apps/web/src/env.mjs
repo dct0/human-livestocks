@@ -18,9 +18,8 @@ export const env = createEnv({
       // This makes Vercel deployments not fail if you don't set NEXTAUTH_URL
       // Since NextAuth.js automatically uses the VERCEL_URL if present.
       (str) =>
-        // Netlify
-        process.env.DEPLOY_PRIME_URL ??
-        process.env.URL ??
+        // Netlify -- dumb hack?
+        (process.env.NETLIFY ? process.env.NEXTAUTH_URL : undefined) ??
         // Vercel
         process.env.VERCEL_URL ??
         str,
