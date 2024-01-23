@@ -15,7 +15,7 @@ const config = {
       permanent: true,
     },
   ],
-  // output: "standalone",
+  output: env.NEXT_OUTPUT,
 };
 
 export default config;
