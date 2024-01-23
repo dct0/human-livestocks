@@ -1,9 +1,6 @@
-// // https://github.com/t3-oss/create-t3-app/issues/1599
-// export const dynamic = "force-dynamic";
-
 import { cn } from "@/lib";
 import { SiDiscord } from "@icons-pack/react-simple-icons";
-import { Button, Subtitle } from "@tremor/react";
+import { Subtitle } from "@tremor/react";
 import Link from "next/link";
 
 export default function Home() {
@@ -18,7 +15,7 @@ export default function Home() {
           <Subtitle>Your bests, your blunders. As a number.</Subtitle>
           <hr className="my-3" />
           <Link
-            className="bg-icon-discord hover:bg-icon-discord-hover group mt-3 inline-flex flex-shrink-0 items-center justify-center rounded-tremor-default border border-tremor-brand px-4 py-2 text-sm font-medium text-tremor-brand-inverted shadow-tremor-input outline-none hover:border-tremor-brand-emphasis dark:border-dark-tremor-brand dark:bg-dark-tremor-brand dark:text-dark-tremor-brand-inverted dark:shadow-dark-tremor-input dark:hover:border-dark-tremor-brand-emphasis dark:hover:bg-dark-tremor-brand-emphasis"
+            className="group mt-3 inline-flex flex-shrink-0 items-center justify-center rounded-tremor-default border border-tremor-brand bg-icon-discord px-4 py-2 text-sm font-medium text-tremor-brand-inverted shadow-tremor-input outline-none hover:border-tremor-brand-emphasis hover:bg-icon-discord-hover dark:border-dark-tremor-brand dark:bg-dark-tremor-brand dark:text-dark-tremor-brand-inverted dark:shadow-dark-tremor-input dark:hover:border-dark-tremor-brand-emphasis dark:hover:bg-dark-tremor-brand-emphasis"
             href="/api/invite"
             target="_blank"
           >
