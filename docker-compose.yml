@@ -43,8 +43,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=human_livestocks
-    expose:
-      - "5432:5432"
     volumes:
       - hmls_db:/var/lib/postgresql/data
 
@@ -53,8 +51,6 @@ services:
     container_name: hmls_redis
     restart: unless-stopped
     command: redis-server --save 60 1 --loglevel warning
-    expose:
-      - "6379:6379"
     volumes:
       - hmls_redis:/data
 
