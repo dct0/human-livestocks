@@ -14,10 +14,12 @@ export default function Home() {
           <h2 className="text-4xl font-semibold text-tremor-content-emphasis dark:text-dark-tremor-content-emphasis">
             You are the commodity
           </h2>
-          <Subtitle>Your bests, your blunders. As a number.</Subtitle>
+          <Subtitle className="dark:!text-dark-tremor-content-emphasis">
+            Your bests, your blunders. As a number.
+          </Subtitle>
           <hr className="my-3" />
           <Link
-            className="group mt-3 inline-flex flex-shrink-0 items-center justify-center rounded-tremor-default bg-icon-discord px-4 py-2 text-sm font-medium text-tremor-brand-inverted shadow-tremor-input outline-none hover:bg-icon-discord-hover"
+            className="group mt-3 inline-flex flex-shrink-0 items-center justify-center rounded-tremor-default bg-icon-discord px-4 py-2 text-sm font-medium text-white shadow-tremor-input outline-none hover:bg-icon-discord-hover"
             href="/api/invite"
             target="_blank"
           >

@@ -18,7 +18,7 @@ export default function NavLink({
     <Link
       {...props}
       className={cn(
-        "text-tremor-default text-tremor-content hover:text-tremor-brand dark:text-dark-tremor-content dark:hover:text-dark-tremor-brand",
+        "text-tremor-default text-tremor-content hover:text-tremor-brand dark:text-dark-tremor-content-emphasis dark:hover:text-dark-tremor-brand",
         { "text-tremor-brand dark:text-dark-tremor-brand": isActive },
         className,
       )}
