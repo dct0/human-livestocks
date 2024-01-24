@@ -10,6 +10,7 @@ export default async function MyStats(props: GuildDashboardLayoutProps) {
     <>
       <Title>Here is the my-stats page</Title>
       <Card>
+        <Title>Stock Price</Title>
         <StockChart stocks={stocks} />
       </Card>
     </>
