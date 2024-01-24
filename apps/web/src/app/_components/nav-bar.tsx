@@ -16,18 +16,18 @@ export default async function NavBar() {
         </Link>
       </Title>
       <ul className="flex items-center gap-4">
-        {!!session && (
+        <li>
+          <GuildSelect />
+        </li>
+        {!!session ? (
           <li>
-            <GuildSelect />
+            <NavLink href="/auth/logout">Logout</NavLink>
+          </li>
+        ) : (
+          <li>
+            <NavLink href="/auth/login">Login</NavLink>
           </li>
         )}
-        <li>
-          {!!session ? (
-            <NavLink href="/auth/logout">Logout</NavLink>
-          ) : (
-            <NavLink href="/auth/login">Login</NavLink>
-          )}
-        </li>
       </ul>
     </nav>
   );

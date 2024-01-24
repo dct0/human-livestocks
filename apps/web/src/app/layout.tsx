@@ -15,17 +15,15 @@ export const metadata = {
 
 export default function RootLayout({
   children,
-  params,
 }: {
   children: React.ReactNode;
-  params: any;
 }) {
   return (
     <html lang="en">
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         {/* I hope this works how I think it does... */}
         <Providers headers={headers()}>
-          <NavBar guildId={params.guildId} />
+          <NavBar />
           <main className="mx-auto flex min-h-screen flex-col bg-tremor-background pt-20 dark:bg-dark-tremor-background">
             {children}
           </main>

@@ -1,19 +1,28 @@
 "use client";
-import { guildAtom } from "@/atoms/guild";
 import { api } from "@/trpc/react";
 import { SearchSelect, SearchSelectItem } from "@tremor/react";
-import { useAtom, useAtomValue } from "jotai";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function GuildSelect() {
   const router = useRouter();
-  const guild = useAtomValue(guildAtom);
+  const pathname = usePathname();
 
   const { data: options } = api.guild.getAll.useQuery();
 
-  const handleValueChange = (value?: string) => {
-    if (!value) return router.push(`/dashboard`);
+  // :(
+  const guildId = pathname.split("/")[2];
+  const [guild, setGuild] = useState(guildId);
 
+  useEffect(() => {
+    setGuild(guildId);
+
+    return () => setGuild(undefined);
+  }, [guildId]);
+
+  const handleValueChange = (value: string) => {
+    setGuild(value);
     router.push(`/dashboard/${value}/overview`);
   };
 
@@ -28,7 +37,7 @@ export default function GuildSelect() {
     >
       {options?.map((guild) => (
         <SearchSelectItem key={guild.id} value={guild.id}>
-          {guild.name}
+          <Link href={`/dashboard/${guild.id}/overview`}>{guild.name}</Link>
         </SearchSelectItem>
       ))}
     </SearchSelect>
