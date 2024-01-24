@@ -10,11 +10,13 @@ export class MessageCreateListener extends Listener {
   }
 
   public async run(message: Message): Promise<void> {
-    this.container.logger.info(`Message received: ${message.content}`);
+    this.container.logger.info(
+      `Message received (${message.id}): ${message.content}`,
+    );
 
-    if (!message.inGuild()) return;
+    if (!message.inGuild()) return; // whitelist bots later
 
-    const score = Math.random() * 6 - 3; // Score of the message is between -3 and 3
+    const score = Math.random() * 6 - 2; // Score of the message is between -2 and 4
 
     await this.container.db.message.add(message, score);
   }

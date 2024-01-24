@@ -10,7 +10,7 @@ export class StocksTask extends ScheduledTask {
     super(context, {
       ...options,
       name: "stocks-calculation",
-      pattern: "0 * * * *", // every o'clock,
+      pattern: "30 4 * * *", // at 4:30am server time every day, for now...
       customJobOptions: {
         jobId: "stocks-calculation", // ensure there's only one, for now...
       },
@@ -19,11 +19,17 @@ export class StocksTask extends ScheduledTask {
 
   public async run(): Promise<void> {
     this.container.logger.info("Time to update stocks!");
-    const guildId = "286843424194166794";
+    const guilds = await this.container.db.guild.findMany({});
 
-    // take all members and calculate the new stock price using message created since the lastCronnedAt
-    // update the stock price for each member
-    // update the lastCronnedAt for each member
+    // TODO: a scheduled task for each guild
+    const query = guilds.map((guild) => this.updateStocksForGuild(guild.id));
+    await Promise.all(query);
+
+    this.container.logger.info("Stocks updated!");
+  }
+
+  private async updateStocksForGuild(guildId: string): Promise<void> {
+    this.container.logger.info(`Updating stocks for guild ${guildId}`);
 
     const now = new Date();
 
@@ -33,10 +39,12 @@ export class StocksTask extends ScheduledTask {
       },
     });
 
+    // find members to calculate stocks for
     const members = await this.container.db.member.findMany({
       include: {
         messages: {
           where: {
+            guildId,
             createdAt: {
               gte: lastCronnedAt ?? new Date(0),
             },
@@ -82,12 +90,10 @@ export class StocksTask extends ScheduledTask {
       }
 
       // from the last 20 stock prices and the total scores for each message since the last cron, calculate new rate
-      const newRate = calculateNewRate(member.stockPrices, totalScores);
+      let newRate = calculateNewRate(member.stockPrices, totalScores);
       if (newRate.isNaN()) {
-        this.container.logger.warn(
-          `New rate for ${member.id} is NaN, probably because there are no messages since the last cron...`,
-        );
-        continue;
+        // should always be one stock price but just in case...
+        newRate = member.stockPrices[0]?.price.mul(0.95) ?? new Decimal(0);
       }
       membersToUpdate.push({
         id: member.id,
@@ -116,5 +122,7 @@ export class StocksTask extends ScheduledTask {
         isolationLevel: "ReadUncommitted",
       },
     );
+
+    this.container.logger.info(`Updated stocks for guild ${guildId}`);
   }
 }

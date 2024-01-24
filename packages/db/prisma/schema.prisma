@@ -38,13 +38,15 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String    @id @default(cuid()) // ! should ALWAYS be the discord id
   name          String?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   Session       Session[]
+
+  members Member[] // a user has a member for each guild they are in
 }
 
 model VerificationToken {
@@ -60,23 +62,22 @@ model Guild {
   name          String
   members       Member[]
   lastCronnedAt DateTime? // last time cron job was run for this guild
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Member {
-  id       String @id @default(cuid())
-  username String @unique
+  id   String @id @default(cuid()) // * randomly generated
+  user User   @relation(fields: [userId], references: [id])
 
   messages    Message[]
   stockPrices StockPrice[] // stores past and current stock price
 
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
   guild       Guild         @relation(fields: [guildId], references: [id])
   guildId     String
   impressions Impressions[]
+  userId      String
+
+  @@unique([guildId, userId])
+  @@index([guildId, userId])
 }
 
 model Message {
@@ -87,11 +88,14 @@ model Message {
   impressions Impressions[]
   createdBy   Member        @relation(fields: [createdById], references: [id])
   createdById String
-  guildId     String
-  channelId   String
+
+  guildId   String
+  channelId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([guildId, channelId])
 }
 
 model Impressions {
@@ -105,16 +109,19 @@ model Impressions {
   createdById   String
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt // remove?
 }
 
 model StockPrice {
   id    String  @id @default(cuid())
   price Decimal
 
+  member   Member @relation(fields: [memberId], references: [id])
+  memberId String
+
   createdAt DateTime @default(now())
-  member    Member   @relation(fields: [memberId], references: [id])
-  memberId  String
+
+  @@index([memberId, createdAt(sort: Desc)])
 }
 
 enum ImpressionType {
