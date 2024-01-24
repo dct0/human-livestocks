@@ -43,8 +43,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=human_livestocks
-    ports:
-      - "5432:5432"
     volumes:
       - hmls_db:/var/lib/postgresql/data
 
@@ -52,7 +50,7 @@ services:
     image: redis:alpine
     container_name: hmls_redis
     restart: unless-stopped
-    command: redis-server --save 60 1 --loglevel warning --requirepass root
+    command: redis-server --save 60 1 --loglevel warning
     volumes:
       - hmls_redis:/data
 

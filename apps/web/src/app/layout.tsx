@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 
-import { GeistMono, GeistSans } from "geist/font";
+import { GeistMono } from "geist/font/mono";
+import { GeistSans } from "geist/font/sans";
 import { headers } from "next/headers";
 
 import { TRPCReactProvider } from "@/trpc/react";
@@ -25,7 +26,7 @@ export default function RootLayout({
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         <TRPCReactProvider headers={headers()}>
           <NavBar />
-          <main className="mx-auto flex min-h-screen flex-col pt-20">
+          <main className="mx-auto flex min-h-screen flex-col bg-tremor-background pt-20 dark:bg-dark-tremor-background">
             {children}
           </main>
         </TRPCReactProvider>
