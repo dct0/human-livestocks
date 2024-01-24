@@ -11,10 +11,10 @@
     "db:migrate": "pnpm --filter db db:migrate"
   },
   "devDependencies": {
-    "eslint": "^8.52.0",
-    "prettier": "^3.0.3",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.4",
     "tsconfig": "workspace:*",
-    "turbo": "^1.10.16"
+    "turbo": "^1.11.3"
   },
   "packageManager": "pnpm@8.6.10",
   "name": "human-livestocks"

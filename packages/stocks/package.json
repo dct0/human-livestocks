@@ -9,8 +9,8 @@
   "devDependencies": {
     "db": "workspace:*",
     "eslint-config-custom": "workspace:*",
-    "type-fest": "^4.6.0",
-    "typescript": "^5.2.2",
+    "type-fest": "^4.10.1",
+    "typescript": "^5.3.3",
     "vitest": "^0.34.6"
   },
   "dependencies": {
