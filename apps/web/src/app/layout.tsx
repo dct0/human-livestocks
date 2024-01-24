@@ -4,8 +4,8 @@ import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import { headers } from "next/headers";
 
-import { TRPCReactProvider } from "@/trpc/react";
 import NavBar from "./_components/nav-bar";
+import Providers from "./providers";
 
 export const metadata = {
   title: "Human Livestocks",
@@ -13,23 +13,23 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-// The downside to wrapping the entire app in a TRPCReactProvider here is that it makes EVERY single page SSR.
-// The NavBar also causes this because it checks auth state.
-// Ideally the landing page should be static, and the NavBar should be rendered client-side.
 export default function RootLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: any;
 }) {
   return (
     <html lang="en">
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <TRPCReactProvider headers={headers()}>
-          <NavBar />
+        {/* I hope this works how I think it does... */}
+        <Providers headers={headers()}>
+          <NavBar guildId={params.guildId} />
           <main className="mx-auto flex min-h-screen flex-col bg-tremor-background pt-20 dark:bg-dark-tremor-background">
             {children}
           </main>
-        </TRPCReactProvider>
+        </Providers>
       </body>
     </html>
   );

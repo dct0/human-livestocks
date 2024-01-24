@@ -10,8 +10,8 @@ import {
   TabPanels,
   Title,
 } from "@tremor/react";
-import AuthError from "../_components/error/auth-error";
-import StockChart from "../_components/stock-chart";
+import AuthError from "../../_components/error/auth-error";
+import StockChart from "../../_components/stock-chart";
 
 export default async function Dashboard() {
   const session = await getServerAuthSession();

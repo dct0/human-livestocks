@@ -8,10 +8,7 @@ const globalForPrisma = globalThis as unknown as {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- type is dynamic
 const prismaClientSingleton = () => {
   return new PrismaClient({
-    log:
-      process.env.NODE_ENV === "development"
-        ? ["query", "error", "warn"]
-        : ["error"],
+    log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
   }).$extends(sharedMethods);
 };
 
