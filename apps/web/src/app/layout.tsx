@@ -24,7 +24,7 @@ export default function RootLayout({
         {/* I hope this works how I think it does... */}
         <Providers headers={headers()}>
           <NavBar />
-          <main className="bg-tremor-background-muted dark:bg-dark-tremor-background-muted mx-auto flex min-h-screen flex-col pt-20">
+          <main className="mx-auto flex min-h-screen flex-col bg-tremor-background-muted pt-20 dark:bg-dark-tremor-background-muted">
             {children}
           </main>
         </Providers>

@@ -74,7 +74,7 @@ export function GuildIcon({ name, iconURL }: Guild) {
       height={32}
     />
   ) : (
-    <span className="bg-tremor-brand-muted text-tremor-content-strong dark:bg-dark-tremor-brand-muted dark:text-dark-tremor-content-strong mr-2 aspect-square h-8 w-8 rounded-full text-center text-xs">
+    <span className="mr-2 aspect-square h-8 w-8 rounded-full bg-tremor-brand-muted text-center text-xs text-tremor-content-strong dark:bg-dark-tremor-brand-muted dark:text-dark-tremor-content-strong">
       {name.at(0)}
     </span>
   );

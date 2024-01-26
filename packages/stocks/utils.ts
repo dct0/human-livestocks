@@ -11,7 +11,7 @@ export const calculateAverage = (decimalList: Decimal[]): Decimal => {
 export const calculateRMS = (decimalList: Decimal[]): Decimal => {
   const average = calculateAverage(decimalList);
   const squaredDifferences = decimalList.map((decimal) =>
-    decimal.sub(average).pow(2)
+    decimal.sub(average).pow(2),
   );
   const averageSquaredDifference = calculateAverage(squaredDifferences);
   return averageSquaredDifference.sqrt();
@@ -24,20 +24,20 @@ export const calculateBias = (score: Decimal, deviation: Decimal): Decimal => {
 
 export const calculateReversion = (
   deviation: Decimal,
-  reversionFactor: Decimal.Value
+  reversionFactor: Decimal.Value,
 ): Decimal => {
   return deviation.mul(reversionFactor);
 };
 
 export const calculateNewRate = (
   pastStocks: HasPrice[],
-  scores: Decimal[]
+  scores: Decimal[],
 ): Decimal => {
   if (!pastStocks.length || !scores.length) {
     return new Decimal(NaN);
   }
   const stockPriceAverage = calculateAverage(
-    pastStocks.map((stock) => stock.price)
+    pastStocks.map((stock) => stock.price),
   );
   // const averageScore = calculateAverage(scores);
 

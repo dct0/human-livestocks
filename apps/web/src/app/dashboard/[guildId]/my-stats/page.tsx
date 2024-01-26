@@ -1,5 +1,5 @@
 import { api } from "@/trpc/server";
-import { GuildDashboardLayoutProps } from "../types";
+import { type GuildDashboardLayoutProps } from "../types";
 import StockChart from "@/app/_components/stock-chart";
 import { Card, Title } from "@tremor/react";
 
