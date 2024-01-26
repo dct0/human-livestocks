@@ -29,6 +29,8 @@ jobs:
         run: pnpm i
       - name: Lint
         run: pnpm lint
+        env:
+          SKIP_ENV_VALIDATION: true
       - name: Format
         run: pnpm format:check
 
