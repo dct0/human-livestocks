@@ -34,40 +34,6 @@ jobs:
       - name: Format
         run: pnpm format:check
 
-  migration-check:
-    name: Check Migrations and Schema Match
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18]
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_HOST: postgres
-          POSTGRES_DB: test
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-      - name: Add pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "pnpm"
-      - name: Install Dependencies
-        run: pnpm i
-      - name: Check Migrations and Schema Match
-        run: pnpx prisma migrate diff --exit-code --from-migrations "packages/db/prisma/migrations" --to-schema-datamodel "packages/db/prisma/schema.prisma" --shadow-database-url "postgres://postgres:postgres@postgres:5432/test?schema=public"
-
   build-test:
     name: Build and Test
     timeout-minutes: 15
@@ -101,10 +67,13 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm i
+      - name: Check Migrations and Schema Match
+        run: pnpx prisma migrate diff --exit-code --from-migrations "packages/db/prisma/migrations" --to-schema-datamodel "packages/db/prisma/schema.prisma" --shadow-database-url "postgres://postgres:postgres@postgres:5432/test?schema=public"
       - name: Build
         run: pnpm build
         env:
           SKIP_ENV_VALIDATION: true
+          INVITE_URL: "https://example.com"
       - name: Test
         run: pnpm test
         env:
