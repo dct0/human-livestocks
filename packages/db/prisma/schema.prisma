@@ -60,6 +60,7 @@ model VerificationToken {
 model Guild {
   id            String    @id @default(cuid())
   name          String
+  iconURL       String?
   members       Member[]
   lastCronnedAt DateTime? // last time cron job was run for this guild
 }

@@ -8,8 +8,24 @@ export default Prisma.defineExtension((client) => {
     model: {
       member: {},
       message: {
-        add(message: Message, baseScore: number) {
+        async add(message: Message, baseScore: number) {
           if (!message.guild) throw new Error("Message is not in a guild");
+
+          // move this to a scheduled task in the bot?
+          const guild = await client.guild.upsert({
+            where: {
+              id: message.guild.id,
+            },
+            create: {
+              id: message.guild.id,
+              name: message.guild.name,
+              iconURL: message.guild.iconURL(),
+            },
+            update: {
+              name: message.guild.name,
+              iconURL: message.guild.iconURL(),
+            },
+          });
 
           return client.message.create({
             data: {
@@ -38,14 +54,8 @@ export default Prisma.defineExtension((client) => {
                       },
                     },
                     guild: {
-                      connectOrCreate: {
-                        where: {
-                          id: message.guild.id,
-                        },
-                        create: {
-                          id: message.guild.id,
-                          name: message.guild.name,
-                        },
+                      connect: {
+                        id: guild.id,
                       },
                     },
                     stockPrices: {

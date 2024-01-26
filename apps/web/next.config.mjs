@@ -7,6 +7,14 @@ const { env } = await import("./src/env.mjs");
 /** @type {import("next").NextConfig} */
 const config = {
   transpilePackages: ["db", "ui"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.discordapp.com",
+      },
+    ],
+  },
   // eslint-disable-next-line @typescript-eslint/require-await
   redirects: async () => [
     {

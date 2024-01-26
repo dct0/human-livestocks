@@ -2,6 +2,7 @@ import { getServerAuthSession } from "@/server/auth";
 import { Title } from "@tremor/react";
 import Link from "next/link";
 import NavLink from "./nav-link";
+import GuildSelect from "./dashboard/guild-select";
 
 // TODO: Convert part of this to a client component?
 export default async function NavBar() {
@@ -14,20 +15,19 @@ export default async function NavBar() {
           Human Livestocks<span>🐄</span>
         </Link>
       </Title>
-      <ul className="flex gap-4">
+      <ul className="flex items-center gap-4">
         <li>
-          <NavLink href="/">Home</NavLink>
+          <GuildSelect />
         </li>
-        <li>
-          <NavLink href="/dashboard">Dashboard</NavLink>
-        </li>
-        <li>
-          {!session ? (
-            <NavLink href="/auth/login">Login</NavLink>
-          ) : (
+        {!!session ? (
+          <li>
             <NavLink href="/auth/logout">Logout</NavLink>
-          )}
-        </li>
+          </li>
+        ) : (
+          <li>
+            <NavLink href="/auth/login">Login</NavLink>
+          </li>
+        )}
       </ul>
     </nav>
   );

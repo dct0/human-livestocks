@@ -21,8 +21,7 @@ To develop all apps and packages, run the following commands:
 
 ```bash
 pnpm install # install dependencies
-docker compose -f docker-compose.local.yml up -d # start redis server
-pnpm dev # start apps
+pnpm dev # start apps and redis container
 ```
 
 ## Build
@@ -47,5 +46,6 @@ Currently, the web application is deployed on [Netlify](https://www.netlify.com/
 
 ```bash
 docker compose -f docker-compose.local.yml up -d
+docker compose down
 pnpm [command] --filter package_name
 ```
