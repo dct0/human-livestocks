@@ -13,6 +13,9 @@ jobs:
     strategy:
       matrix:
         node-version: [18]
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -41,6 +44,9 @@ jobs:
     strategy:
       matrix:
         node-version: [18]
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
     container: node:18-alpine
     services:
       postgres:
