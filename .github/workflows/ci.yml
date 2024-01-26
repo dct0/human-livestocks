@@ -10,13 +10,20 @@ jobs:
   lint-format:
     name: Lint and Format
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18]
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+      - name: Add pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: ${{ matrix.node-version }}
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm i
@@ -28,6 +35,9 @@ jobs:
   migration-check:
     name: Check Migrations and Schema Match
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18]
     services:
       postgres:
         image: postgres
@@ -42,10 +52,14 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+      - name: Add pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: ${{ matrix.node-version }}
           cache: "pnpm"
       - name: Install Dependencies
         run: pnpm i
@@ -56,6 +70,9 @@ jobs:
     name: Build and Test
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18]
     container: node:18-alpine
     services:
       postgres:
@@ -71,10 +88,14 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+      - name: Add pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: ${{ matrix.node-version }}
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm i
