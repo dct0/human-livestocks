@@ -15,9 +15,6 @@ const config = {
       },
     ],
   },
-  experimental: {
-    swcPlugins: [["@swc-jotai/react-refresh", {}]],
-  },
   // eslint-disable-next-line @typescript-eslint/require-await
   redirects: async () => [
     {
