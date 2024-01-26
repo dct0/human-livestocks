@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.select-fixer {
+  button {
+    @apply h-full;
+
+    input {
+      @apply h-full;
+    }
+  }
+}
+
+.select-fixer-with-icon {
+  input {
+    @apply !pl-12;
+  }
+}

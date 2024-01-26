@@ -2,6 +2,7 @@ import AuthError from "@/app/_components/error/auth-error";
 import { getServerAuthSession } from "@/server/auth";
 import { type PropsWithChildren } from "react";
 import { type GuildDashboardLayoutProps } from "./types";
+import DashboardNav from "@/app/_components/dashboard/dashboard-nav";
 
 export const metadata = {
   title: "Human Livestocks - Dashboard",
@@ -17,5 +18,10 @@ export default async function GuildDashboardLayout({
     return <AuthError />;
   }
 
-  return <div className="p-4">{children}</div>;
+  return (
+    <div className="p-4">
+      <DashboardNav />
+      {children}
+    </div>
+  );
 }

@@ -7,6 +7,14 @@ const { env } = await import("./src/env.mjs");
 /** @type {import("next").NextConfig} */
 const config = {
   transpilePackages: ["db", "ui"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.discordapp.com",
+      },
+    ],
+  },
   experimental: {
     swcPlugins: [["@swc-jotai/react-refresh", {}]],
   },
