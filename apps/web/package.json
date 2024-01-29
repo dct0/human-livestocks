@@ -22,6 +22,7 @@
     "db": "workspace:*",
     "decimal.js": "^10.4.3",
     "geist": "^1.2.1",
+    "jotai": "^2.6.3",
     "lucide-react": "^0.314.0",
     "next": "^14.1.0",
     "next-auth": "^4.24.5",
