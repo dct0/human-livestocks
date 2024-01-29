@@ -1,7 +1,7 @@
 import MessageCardContent from "@/app/_components/dashboard/message-card-content";
 import StockChart from "@/app/_components/stock-chart";
 import { api } from "@/trpc/server";
-import { Card, Col, Grid, Title } from "@tremor/react";
+import { Card, Col, Grid, Text, Title } from "@tremor/react";
 import { type GuildDashboardLayoutProps } from "../types";
 
 export default async function MyStats(props: GuildDashboardLayoutProps) {
@@ -21,9 +21,9 @@ export default async function MyStats(props: GuildDashboardLayoutProps) {
         </Card>
       </Col>
       <Col numColSpanMd={1} numColSpan={1}>
-        <Card>
-          <Title>Users</Title>
-          <div>Text</div>
+        <Card className="h-full">
+          <Title>Coming soon...</Title>
+          <Text>Coming soon...</Text>
         </Card>
       </Col>
     </Grid>
