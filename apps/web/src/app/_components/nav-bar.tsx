@@ -17,7 +17,7 @@ export default async function NavBar() {
       </Title>
       <ul className="flex items-center gap-4">
         <li>
-          <GuildSelect />
+          { !!session && <GuildSelect />}
         </li>
         {!!session ? (
           <li>

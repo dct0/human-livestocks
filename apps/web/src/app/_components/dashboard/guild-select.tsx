@@ -12,7 +12,7 @@ export default function GuildSelect() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { data: options, isFetched, isError } = api.guild.getAll.useQuery();
+  const { data: options, isFetched } = api.guild.getAll.useQuery();
 
   // :(
   const guildId = pathname.split("/")[2];
@@ -32,7 +32,6 @@ export default function GuildSelect() {
   };
 
   return (
-    !isError &&
     isFetched && (
       <SearchSelect
         className={cn(
