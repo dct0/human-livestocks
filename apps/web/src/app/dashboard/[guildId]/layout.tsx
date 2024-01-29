@@ -19,9 +19,9 @@ export default async function GuildDashboardLayout({
   }
 
   return (
-    <div className="p-4">
+    <section className="p-4">
       <DashboardNav />
       {children}
-    </div>
+    </section>
   );
 }

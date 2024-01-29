@@ -8,7 +8,7 @@ export default async function MyStats(props: GuildDashboardLayoutProps) {
   const stocks = await api.stocks.get.query({});
 
   return (
-    <Grid numItemsMd={3} numItems={1}>
+    <Grid className="gap-4" numItemsMd={3} numItems={1}>
       <Col numColSpanMd={3} numColSpan={1}>
         <Card>
           <Title>Stock Price</Title>

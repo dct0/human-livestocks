@@ -18,6 +18,12 @@ export default {
         icon: {
           discord: { DEFAULT: SiDiscordHex, hover: "#4555c2" },
         },
+        discord: {
+          gray: {
+            DEFAULT: "#313338",
+            hover: "#2E3035",
+          },
+        },
         // light mode
         tremor: {
           brand: {
