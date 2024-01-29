@@ -9,16 +9,14 @@ export default async function NavBar() {
   const session = await getServerAuthSession();
 
   return (
-    <nav className="fixed z-20 flex h-20 w-full items-center justify-between border-b px-6">
+    <nav className="fixed z-20 flex h-20 w-full items-center justify-between border-b bg-tremor-brand-faint px-6 dark:bg-dark-tremor-brand-faint">
       <Title>
         <Link href="/">
           Human Livestocks<span>🐄</span>
         </Link>
       </Title>
       <ul className="flex items-center gap-4">
-        <li>
-          <GuildSelect />
-        </li>
+        <li>{!!session && <GuildSelect />}</li>
         {!!session ? (
           <li>
             <NavLink href="/auth/logout">Logout</NavLink>
