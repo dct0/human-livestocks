@@ -12,7 +12,7 @@ export type MessageProps = {
 
 export default function Message({ author, content, createdAt }: MessageProps) {
   return (
-    <article className="bg-discord-gray hover:bg-discord-gray-hover flex gap-3 py-2 pl-4 pr-6 first:rounded-t-lg first:pt-4 last:rounded-b-lg last:pb-4">
+    <article className="flex gap-3 bg-discord-gray py-2 pl-4 pr-6 first:rounded-t-lg first:pt-4 last:rounded-b-lg last:pb-4 hover:bg-discord-gray-hover">
       <Avatar className="mt-1">
         <AvatarImage src={author.iconURL} alt={`@${author.username} `} />
         <AvatarFallback>{getInitials(author.username)}</AvatarFallback>
