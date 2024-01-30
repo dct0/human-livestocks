@@ -1,5 +1,5 @@
 import { env } from "@/env.mjs";
-import { PrismaClient } from "db";
+import { PrismaClient } from "db/edge";
 import sharedMethods from "db/extensions/shared";
 
 const globalForPrisma = globalThis as unknown as {

@@ -10,7 +10,7 @@ import DiscordProvider, {
 
 import { env } from "@/env.mjs";
 import { type PrismaClientSingleton, db } from "@/server/db";
-import { type PrismaClient } from "db";
+import { type PrismaClient } from "db/edge";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
