@@ -1,28 +1,24 @@
 import MessageCardContent from "@/app/_components/dashboard/message-card-content";
 import StockChart from "@/app/_components/stock-chart";
-import { api } from "@/trpc/server";
 import { Card, Col, Grid, Text, Title } from "@tremor/react";
-import { type GuildDashboardLayoutProps } from "../types";
 
-export default async function MyStats(props: GuildDashboardLayoutProps) {
-  const stocks = await api.stocks.get.query({});
-
+export default function MyStats() {
   return (
     <Grid className="gap-4" numItemsMd={3} numItems={1}>
       <Col numColSpanMd={3} numColSpan={1}>
         <Card>
           <Title>Stock Price</Title>
-          <StockChart stocks={stocks} />
+          <StockChart />
         </Card>
       </Col>
       <Col numColSpanMd={2} numColSpan={1}>
         <Card>
-          <MessageCardContent />
+          <MessageCardContent title={<Title>Top Messages (past week)</Title>} />
         </Card>
       </Col>
       <Col numColSpanMd={1} numColSpan={1}>
         <Card className="h-full">
-          <Title>Coming soon...</Title>
+          <Title className="mb-2">Coming soon...</Title>
           <Text>Coming soon...</Text>
         </Card>
       </Col>

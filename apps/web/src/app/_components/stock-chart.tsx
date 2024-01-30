@@ -1,15 +1,18 @@
 "use client";
 
+import { api } from "@/trpc/react";
 import { LineChart } from "@tremor/react";
-import { type StockPrice } from "db";
 import { useMemo } from "react";
 
-export default function StockChart({ stocks }: { stocks: StockPrice[] }) {
+export default function StockChart() {
+  const { data: stocks } = api.stock.get.useQuery({});
+
   const data = useMemo(() => {
+    if (!stocks) return [];
     return stocks
       .map((stockPrice) => ({
         ...stockPrice,
-        createdAt: `${stockPrice.createdAt.toLocaleDateString()} ${stockPrice.createdAt.toLocaleTimeString()}`,
+        createdAt: stockPrice.createdAt.toLocaleString(),
       }))
       .toReversed();
   }, [stocks]);
