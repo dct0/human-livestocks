@@ -12,7 +12,7 @@ export default function StockChart() {
     return stocks
       .map((stockPrice) => ({
         ...stockPrice,
-        createdAt: stockPrice.toLocaleString(),
+        createdAt: stockPrice.createdAt.toLocaleString(),
       }))
       .toReversed();
   }, [stocks]);

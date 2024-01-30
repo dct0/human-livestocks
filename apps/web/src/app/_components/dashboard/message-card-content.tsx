@@ -1,10 +1,10 @@
 "use client";
 import { api } from "@/trpc/react";
+import { type RouterInputs } from "@/trpc/shared";
 import { Tab, TabGroup, TabList } from "@tremor/react";
 import { Flame, Skull } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import Message from "./message";
-import { RouterInputs, RouterOutputs } from "@/trpc/shared";
 
 const getIndex = (sentiment: RouterInputs["message"]["get"]["sentiment"]) => {
   switch (sentiment) {

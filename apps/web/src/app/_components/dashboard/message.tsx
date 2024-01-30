@@ -63,7 +63,7 @@ export default function Message({
   }, [impressions]);
 
   return (
-    <article className="dark:hover:bg-gray-925 group relative flex gap-3 bg-tremor-background-muted py-2 pl-4 pr-6 first:rounded-t-lg first:pt-4 last:rounded-b-lg last:pb-4 hover:bg-tremor-background-muted dark:bg-dark-tremor-background-muted">
+    <article className="group relative flex gap-3 bg-tremor-background-muted py-2 pl-4 pr-6 first:rounded-t-lg first:pt-4 last:rounded-b-lg last:pb-4 hover:bg-tremor-background-muted dark:bg-dark-tremor-background-muted dark:hover:bg-gray-925">
       <Avatar className="mt-1">
         <AvatarImage src={createdBy.user.image!} alt={`@${name}`} />
         <AvatarFallback>
