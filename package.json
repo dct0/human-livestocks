@@ -10,7 +10,8 @@
     "db:generate": "pnpm --filter db db:generate",
     "db:studio": "pnpm --filter db db:studio",
     "db:push": "pnpm --filter db db:push",
-    "db:migrate": "pnpm --filter db db:migrate"
+    "db:migrate": "pnpm --filter db db:migrate",
+    "db:deploy": "pnpm --filter db db:deploy"
   },
   "devDependencies": {
     "eslint": "^8.56.0",
