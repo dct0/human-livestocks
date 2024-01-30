@@ -27,43 +27,59 @@ export default Prisma.defineExtension((client) => {
             },
           });
 
+          const user = await client.user.upsert({
+            where: {
+              id: message.author.id,
+            },
+            create: {
+              id: message.author.id,
+              name: message.author.username,
+              image:
+                message.author.avatarURL() ?? message.author.defaultAvatarURL,
+            },
+            update: {
+              name: message.author.username,
+              image:
+                message.author.avatarURL() ?? message.author.defaultAvatarURL,
+            },
+          });
+
+          const member = await client.member.upsert({
+            where: {
+              guildId_userId: {
+                guildId: guild.id,
+                userId: user.id,
+              },
+            },
+            create: {
+              userId: user.id,
+              guildId: guild.id,
+              stockPrices: {
+                create: {
+                  price: 1,
+                },
+              },
+            },
+            update: {
+              user: {
+                connect: {
+                  id: message.author.id,
+                },
+              },
+            },
+          });
+
           return client.message.create({
             data: {
               id: message.id,
               baseScore,
               content: message.content,
               attachments: message.attachments.map(
-                (attachment) => attachment.url,
+                (attachment) => attachment.url
               ),
               createdBy: {
-                connectOrCreate: {
-                  where: {
-                    id: message.author.id,
-                  },
-                  create: {
-                    id: message.author.id,
-                    user: {
-                      connectOrCreate: {
-                        where: {
-                          id: message.author.id,
-                        },
-                        create: {
-                          id: message.author.id,
-                          name: message.author.username,
-                        },
-                      },
-                    },
-                    guild: {
-                      connect: {
-                        id: guild.id,
-                      },
-                    },
-                    stockPrices: {
-                      create: {
-                        price: 1,
-                      },
-                    },
-                  },
+                connect: {
+                  id: member.id,
                 },
               },
               guildId: message.guild?.id,
@@ -98,7 +114,7 @@ export default Prisma.defineExtension((client) => {
         async getByMember(
           memberId: string,
           limit: number,
-          orderBy?: Prisma.SortOrder,
+          orderBy?: Prisma.SortOrder
         ) {
           // Get 20 most recent messages
           return await client.stockPrice.findMany({

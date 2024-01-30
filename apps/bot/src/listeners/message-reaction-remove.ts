@@ -21,7 +21,7 @@ export class MessageReactionRemove extends Listener {
     if (user.bot || !messageReaction.message.inGuild()) return;
 
     // This should only ever delete one
-    await this.container.db.impressions.deleteMany({
+    await this.container.db.impression.deleteMany({
       where: {
         type: ImpressionType.REACTION,
         discriminator: messageReaction.emoji.name,

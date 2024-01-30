@@ -72,9 +72,9 @@ model Member {
   messages    Message[]
   stockPrices StockPrice[] // stores past and current stock price
 
-  guild       Guild         @relation(fields: [guildId], references: [id])
+  guild       Guild        @relation(fields: [guildId], references: [id])
   guildId     String
-  impressions Impressions[]
+  impressions Impression[]
   userId      String
 
   @@unique([guildId, userId])
@@ -82,12 +82,12 @@ model Member {
 }
 
 model Message {
-  id          String        @id @default(cuid())
+  id          String       @id @default(cuid())
   content     String
   attachments String[]
   baseScore   Decimal
-  impressions Impressions[]
-  createdBy   Member        @relation(fields: [createdById], references: [id])
+  impressions Impression[]
+  createdBy   Member       @relation(fields: [createdById], references: [id])
   createdById String
 
   guildId   String
@@ -99,7 +99,7 @@ model Message {
   @@index([guildId, channelId])
 }
 
-model Impressions {
+model Impression {
   id            String         @id @default(cuid())
   type          ImpressionType
   discriminator String?

@@ -1,9 +1,12 @@
 "use client";
+import { api } from "@/trpc/react";
 import { Tab, TabGroup, TabList, Title } from "@tremor/react";
 import { Flame, Skull } from "lucide-react";
 import Message from "./message";
 
 export default function MessageCardContent() {
+  const { data: messages } = api.message.get.useQuery({});
+
   return (
     <>
       <div className="mb-6 flex items-end justify-between">
@@ -16,31 +19,7 @@ export default function MessageCardContent() {
         </TabGroup>
       </div>
       <div className="flex max-h-96 flex-col overflow-y-auto">
-        <Message
-          author={{ username: "John Doe", iconURL: "" }}
-          content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam quis aliquam ultricies, nisl nunc aliquet nunc, vitae ultricies nisl nunc vitae nisl. Sed euismod, diam quis aliquam ultricies, nisl nunc aliquet nunc, vitae ultricies nisl nunc vitae nisl."
-          createdAt={new Date()}
-        />
-        <Message
-          author={{ username: "John Doe", iconURL: "" }}
-          content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam quis aliquam ultricies, nisl nunc aliquet nunc, vitae ultricies nisl nunc vitae nisl. Sed euismod, diam quis aliquam ultricies, nisl nunc aliquet nunc, vitae ultricies nisl nunc vitae nisl."
-          createdAt={new Date()}
-        />{" "}
-        <Message
-          author={{ username: "John Doe", iconURL: "" }}
-          content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam quis aliquam ultricies, nisl nunc aliquet nunc, vitae ultricies nisl nunc vitae nisl. Sed euismod, diam quis aliquam ultricies, nisl nunc aliquet nunc, vitae ultricies nisl nunc vitae nisl."
-          createdAt={new Date()}
-        />{" "}
-        <Message
-          author={{ username: "John Doe", iconURL: "" }}
-          content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam quis aliquam ultricies, nisl nunc aliquet nunc, vitae ultricies nisl nunc vitae nisl. Sed euismod, diam quis aliquam ultricies, nisl nunc aliquet nunc, vitae ultricies nisl nunc vitae nisl."
-          createdAt={new Date()}
-        />{" "}
-        <Message
-          author={{ username: "John Doe", iconURL: "" }}
-          content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam quis aliquam ultricies, nisl nunc aliquet nunc, vitae ultricies nisl nunc vitae nisl. Sed euismod, diam quis aliquam ultricies, nisl nunc aliquet nunc, vitae ultricies nisl nunc vitae nisl."
-          createdAt={new Date()}
-        />
+        {messages?.map((message) => <Message key={message.id} {...message} />)}
       </div>
     </>
   );

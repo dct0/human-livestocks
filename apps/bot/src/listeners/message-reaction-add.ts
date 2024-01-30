@@ -24,7 +24,7 @@ export class MessageReactionAdd extends Listener {
     const sentiment = getSentimentFromEmoji(messageReaction.emoji);
     const score = sentiment * Math.random() * 5;
 
-    await this.container.db.impressions.create({
+    await this.container.db.impression.create({
       data: {
         type: ImpressionType.REACTION,
         discriminator: messageReaction.emoji.name,

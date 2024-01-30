@@ -18,11 +18,8 @@ export default {
         icon: {
           discord: { DEFAULT: SiDiscordHex, hover: "#4555c2" },
         },
-        discord: {
-          gray: {
-            DEFAULT: "#313338",
-            hover: "#2E3035",
-          },
+        gray: {
+          925: "#101725", // 5% darker than 900 (https://mdigi.tools/darken-color/#111827)
         },
         // light mode
         tremor: {
