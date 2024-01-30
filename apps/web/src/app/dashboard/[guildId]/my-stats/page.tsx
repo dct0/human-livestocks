@@ -13,7 +13,7 @@ export default function MyStats() {
       </Col>
       <Col numColSpanMd={2} numColSpan={1}>
         <Card>
-          <MessageCardContent />
+          <MessageCardContent title={<Title>Top Messages (past week)</Title>} />
         </Card>
       </Col>
       <Col numColSpanMd={1} numColSpan={1}>

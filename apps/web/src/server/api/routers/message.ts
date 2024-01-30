@@ -24,6 +24,9 @@ export const messageRouter = createTRPCRouter({
             },
           },
           {
+            baseScore: input.sentiment === "positive" ? "desc" : "asc", // TODO: use the calculated score
+          },
+          {
             createdAt: "desc",
           },
         ],

@@ -1,20 +1,41 @@
 "use client";
 import { api } from "@/trpc/react";
-import { Tab, TabGroup, TabList, Title } from "@tremor/react";
+import { Tab, TabGroup, TabList } from "@tremor/react";
 import { Flame, Skull } from "lucide-react";
+import { useState, type ReactNode } from "react";
 import Message from "./message";
+import { RouterInputs, RouterOutputs } from "@/trpc/shared";
 
-export default function MessageCardContent() {
-  const { data: messages } = api.message.get.useQuery({});
+const getIndex = (sentiment: RouterInputs["message"]["get"]["sentiment"]) => {
+  switch (sentiment) {
+    case "negative":
+      return 0;
+    case "positive":
+      return 1;
+  }
+};
+
+export default function MessageCardContent({ title }: { title: ReactNode }) {
+  const [sentiment, setSentiment] =
+    useState<RouterInputs["message"]["get"]["sentiment"]>("positive");
+  const { data: messages } = api.message.get.useQuery({ sentiment });
 
   return (
     <>
       <div className="mb-6 flex items-end justify-between">
-        <Title>Top Messages (past week)</Title>
-        <TabGroup className="!w-fit" defaultIndex={1}>
+        {title}
+        <TabGroup
+          className="!w-fit"
+          defaultIndex={1}
+          index={getIndex(sentiment)}
+        >
           <TabList variant="solid">
-            <Tab icon={Skull}>Worst</Tab>
-            <Tab icon={Flame}>Best</Tab>
+            <Tab icon={Skull} onClick={() => setSentiment("negative")}>
+              Worst
+            </Tab>
+            <Tab icon={Flame} onClick={() => setSentiment("positive")}>
+              Best
+            </Tab>
           </TabList>
         </TabGroup>
       </div>
