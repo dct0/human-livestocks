@@ -1,36 +1,5 @@
-/*
-  Warnings:
-
-  - You are about to drop the column `lastCronnedAt` on the `Member` table. All the data in the column will be lost.
-  - You are about to drop the column `score` on the `Message` table. All the data in the column will be lost.
-  - Added the required column `guildId` to the `Member` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `baseScore` to the `Message` table without a default value. This is not possible if the table is not empty.
-  - Made the column `createdById` on table `Message` required. This step will fail if there are existing NULL values in that column.
-  - Made the column `guildId` on table `Message` required. This step will fail if there are existing NULL values in that column.
-  - Made the column `memberId` on table `StockPrice` required. This step will fail if there are existing NULL values in that column.
-
-*/
 -- CreateEnum
 CREATE TYPE "ImpressionType" AS ENUM ('REACTION');
-
--- DropForeignKey
-ALTER TABLE "Message" DROP CONSTRAINT "Message_createdById_fkey";
-
--- DropForeignKey
-ALTER TABLE "StockPrice" DROP CONSTRAINT "StockPrice_memberId_fkey";
-
--- AlterTable
-ALTER TABLE "Member" DROP COLUMN "lastCronnedAt",
-ADD COLUMN     "guildId" TEXT NOT NULL;
-
--- AlterTable
-ALTER TABLE "Message" DROP COLUMN "score",
-ADD COLUMN     "baseScore" DECIMAL(65,30) NOT NULL,
-ALTER COLUMN "createdById" SET NOT NULL,
-ALTER COLUMN "guildId" SET NOT NULL;
-
--- AlterTable
-ALTER TABLE "StockPrice" ALTER COLUMN "memberId" SET NOT NULL;
 
 -- CreateTable
 CREATE TABLE "Account" (
@@ -48,6 +17,16 @@ CREATE TABLE "Account" (
     "session_state" TEXT,
 
     CONSTRAINT "Account_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Session" (
+    "id" TEXT NOT NULL,
+    "sessionToken" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "expires" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -72,15 +51,38 @@ CREATE TABLE "VerificationToken" (
 CREATE TABLE "Guild" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "iconURL" TEXT,
     "lastCronnedAt" TIMESTAMP(3),
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Guild_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Impressions" (
+CREATE TABLE "Member" (
+    "id" TEXT NOT NULL,
+    "guildId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+
+    CONSTRAINT "Member_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Message" (
+    "id" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "attachments" TEXT[],
+    "baseScore" DECIMAL(65,30) NOT NULL,
+    "createdById" TEXT NOT NULL,
+    "guildId" TEXT NOT NULL,
+    "channelId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Impression" (
     "id" TEXT NOT NULL,
     "type" "ImpressionType" NOT NULL,
     "discriminator" TEXT,
@@ -90,11 +92,24 @@ CREATE TABLE "Impressions" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Impressions_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Impression_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "StockPrice" (
+    "id" TEXT NOT NULL,
+    "price" DECIMAL(65,30) NOT NULL,
+    "memberId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "StockPrice_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
@@ -105,8 +120,26 @@ CREATE UNIQUE INDEX "VerificationToken_token_key" ON "VerificationToken"("token"
 -- CreateIndex
 CREATE UNIQUE INDEX "VerificationToken_identifier_token_key" ON "VerificationToken"("identifier", "token");
 
+-- CreateIndex
+CREATE INDEX "Member_guildId_userId_idx" ON "Member"("guildId", "userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Member_guildId_userId_key" ON "Member"("guildId", "userId");
+
+-- CreateIndex
+CREATE INDEX "Message_guildId_channelId_idx" ON "Message"("guildId", "channelId");
+
+-- CreateIndex
+CREATE INDEX "StockPrice_memberId_createdAt_idx" ON "StockPrice"("memberId", "createdAt" DESC);
+
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Member" ADD CONSTRAINT "Member_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Member" ADD CONSTRAINT "Member_guildId_fkey" FOREIGN KEY ("guildId") REFERENCES "Guild"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -115,10 +148,10 @@ ALTER TABLE "Member" ADD CONSTRAINT "Member_guildId_fkey" FOREIGN KEY ("guildId"
 ALTER TABLE "Message" ADD CONSTRAINT "Message_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "Member"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Impressions" ADD CONSTRAINT "Impressions_messageId_fkey" FOREIGN KEY ("messageId") REFERENCES "Message"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Impression" ADD CONSTRAINT "Impression_messageId_fkey" FOREIGN KEY ("messageId") REFERENCES "Message"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Impressions" ADD CONSTRAINT "Impressions_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "Member"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Impression" ADD CONSTRAINT "Impression_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "Member"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "StockPrice" ADD CONSTRAINT "StockPrice_memberId_fkey" FOREIGN KEY ("memberId") REFERENCES "Member"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
