@@ -11,3 +11,5 @@ export function getInitials(name: string) {
     .map((n) => n[0])
     .join("");
 }
+
+export const zodEnum = <T>(arr: T[]): [T, ...T[]] => arr as [T, ...T[]];

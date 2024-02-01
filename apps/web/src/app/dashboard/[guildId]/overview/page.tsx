@@ -8,6 +8,7 @@ export default function Overview() {
       <Col numColSpanMd={3} numColSpan={1}>
         <Card>
           <Title>Top stocks</Title>
+          {/* TODO: Show top x stocks */}
           <StockChart />
         </Card>
       </Col>

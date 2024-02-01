@@ -75,7 +75,7 @@ export default Prisma.defineExtension((client) => {
               baseScore,
               content: message.content,
               attachments: message.attachments.map(
-                (attachment) => attachment.url,
+                (attachment) => attachment.url
               ),
               createdBy: {
                 connect: {
@@ -108,22 +108,6 @@ export default Prisma.defineExtension((client) => {
                   id: memberId,
                 },
               },
-            },
-          });
-        },
-        async getByMember(
-          memberId: string,
-          limit: number,
-          orderBy?: Prisma.SortOrder,
-        ) {
-          // Get 20 most recent messages
-          return await client.stockPrice.findMany({
-            take: limit,
-            orderBy: {
-              createdAt: orderBy ?? "desc",
-            },
-            where: {
-              memberId,
             },
           });
         },
