@@ -6,6 +6,11 @@ import { Flame, Skull } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import Message from "./message";
 
+export type MessageCardContentProps = {
+  title: ReactNode;
+  own: boolean;
+};
+
 const getIndex = (sentiment: RouterInputs["message"]["get"]["sentiment"]) => {
   switch (sentiment) {
     case "negative":
@@ -15,10 +20,13 @@ const getIndex = (sentiment: RouterInputs["message"]["get"]["sentiment"]) => {
   }
 };
 
-export default function MessageCardContent({ title }: { title: ReactNode }) {
+export default function MessageCardContent({
+  title,
+  own,
+}: MessageCardContentProps) {
   const [sentiment, setSentiment] =
     useState<RouterInputs["message"]["get"]["sentiment"]>("positive");
-  const { data: messages } = api.message.get.useQuery({ sentiment });
+  const { data: messages } = api.message.get.useQuery({ sentiment, own });
 
   return (
     <>

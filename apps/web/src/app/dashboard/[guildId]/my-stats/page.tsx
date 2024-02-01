@@ -11,15 +11,18 @@ export default function MyStats() {
           <StockChart />
         </Card>
       </Col>
-      <Col numColSpanMd={2} numColSpan={1}>
-        <Card>
-          <MessageCardContent title={<Title>Top Messages (past week)</Title>} />
-        </Card>
-      </Col>
       <Col numColSpanMd={1} numColSpan={1}>
         <Card className="h-full">
           <Title className="mb-2">Coming soon...</Title>
           <Text>Coming soon...</Text>
+        </Card>
+      </Col>
+      <Col numColSpanMd={2} numColSpan={1}>
+        <Card className="h-full">
+          <MessageCardContent
+            title={<Title>Top Messages (past week)</Title>}
+            own={true}
+          />
         </Card>
       </Col>
     </Grid>

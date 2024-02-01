@@ -26,7 +26,7 @@ export class MessageReactionRemove extends Listener {
         type: ImpressionType.REACTION,
         discriminator: messageReaction.emoji.name,
         createdBy: {
-          id: user.id,
+          userId: user.id,
         },
         message: { id: messageReaction.message.id },
       },
