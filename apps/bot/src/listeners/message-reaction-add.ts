@@ -36,7 +36,10 @@ export class MessageReactionAdd extends Listener {
         },
         createdBy: {
           connect: {
-            id: user.id,
+            guildId_userId: {
+              userId: user.id,
+              guildId: messageReaction.message.guild.id,
+            },
           },
         },
       },
