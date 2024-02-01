@@ -1,3 +1,4 @@
+import { env } from "@/env.mjs";
 import { cn } from "@/lib";
 import { SiDiscord } from "@icons-pack/react-simple-icons";
 import { Subtitle } from "@tremor/react";
@@ -18,13 +19,12 @@ export default function Home() {
           <hr className="my-3" />
           <Link
             className="group mt-3 inline-flex flex-shrink-0 items-center justify-center rounded-tremor-default bg-icon-discord px-4 py-2 text-sm font-medium text-white shadow-tremor-input outline-none hover:bg-icon-discord-hover"
-            href="/invite"
+            href={env.NEXT_PUBLIC_INVITE_URL}
             target="_blank"
           >
             <SiDiscord className={cn("mr-1.5 inline-block")} size={20} />
             <span>Invite to server</span>
           </Link>
-          T
         </div>
       </div>
     </>

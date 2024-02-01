@@ -15,14 +15,6 @@ const config = {
       },
     ],
   },
-  // eslint-disable-next-line @typescript-eslint/require-await
-  redirects: async () => [
-    {
-      source: "/invite",
-      destination: env.INVITE_URL,
-      permanent: true,
-    },
-  ],
   output: env.NEXT_OUTPUT,
 };
 

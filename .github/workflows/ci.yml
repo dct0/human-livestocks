@@ -79,7 +79,6 @@ jobs:
         run: pnpm build
         env:
           SKIP_ENV_VALIDATION: true
-          INVITE_URL: "https://example.com"
       - name: Test
         run: pnpm test
         env:
