@@ -2,38 +2,42 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [$default-branch]
   pull_request:
     types: [opened, synchronize, reopened, edited]
+
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
 jobs:
   lint-format:
     name: Lint and Format
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18]
-    env:
-      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
       - name: Add pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: latest
+
       - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: "18.x"
           cache: "pnpm"
+
       - name: Install dependencies
-        run: pnpm i
+        run: pnpm install
+
       - name: Lint
         run: pnpm lint
         env:
           SKIP_ENV_VALIDATION: true
+
       - name: Format
         run: pnpm format:check
 
@@ -41,46 +45,59 @@ jobs:
     name: Build and Test
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18]
-    env:
-      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
     container: node:18-alpine
+
+    env:
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: human-livestocks
+
     services:
       postgres:
-        image: postgres
+        image: postgres:alpine
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_HOST: postgres
-          POSTGRES_DB: test
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+          POSTGRES_USER: ${{ env.DB_USER }}
+          POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
+          POSTGRES_DB: ${{ env.DB_NAME }}
+        options: >-
+          --health-cmd pg_isready 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 5
+
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
       - name: Add pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: latest
+
       - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: "18.x"
           cache: "pnpm"
+
       - name: Install dependencies
-        run: pnpm i
+        run: pnpm install
+
       - name: Check Migrations and Schema Match
-        run: pnpx prisma migrate diff --exit-code --from-migrations "packages/db/prisma/migrations" --to-schema-datamodel "packages/db/prisma/schema.prisma" --shadow-database-url "postgres://postgres:postgres@postgres:5432/test?schema=public"
+        run: >-
+          pnpx prisma migrate diff 
+          --exit-code 
+          --from-migrations 'packages/db/prisma/migrations' 
+          --to-schema-datamodel 'packages/db/prisma/schema.prisma' 
+          --shadow-database-url 'postgres://${{ env.DB_USER }}:${{ env.DB_PASSWORD }}@postgres:5432/${{ env.DB_NAME }}/?schema=public'
+
       - name: Build
         run: pnpm build
         env:
           SKIP_ENV_VALIDATION: true
+
       - name: Test
         run: pnpm test
         env:
-          DATABASE_URL: postgres://postgres:postgres@postgres:5432/test?schema=public
-          DATABASE_URL_DIRECT: postgres://postgres:postgres@postgres:5432/test
+          DATABASE_URL: postgres://${{ env.DB_USER }}:${{ env.DB_PASSWORD }}@postgres:5432/${{ env.DB_NAME }}/?schema=public
+          DATABASE_URL_DIRECT: postgres://${{ env.DB_USER }}:${{ env.DB_PASSWORD }}@postgres:5432/${{ env.DB_NAME }}
