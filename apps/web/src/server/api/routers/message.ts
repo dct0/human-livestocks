@@ -1,5 +1,4 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { type Prisma } from "db";
 import { z } from "zod";
 
 export const messageRouter = createTRPCRouter({

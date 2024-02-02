@@ -73,6 +73,7 @@ export default Prisma.defineExtension((client) => {
             data: {
               id: message.id,
               baseScore,
+              calculatedScore: baseScore,
               content: message.content,
               attachments: message.attachments.map(
                 (attachment) => attachment.url,

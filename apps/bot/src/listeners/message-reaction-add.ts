@@ -4,7 +4,10 @@ import { type MessageReaction, type User } from "discord.js";
 import { getSentimentFromEmoji } from "../utils/reactions";
 
 export class MessageReactionAdd extends Listener {
-  public constructor(context: Listener.Context, options: Listener.Options) {
+  public constructor(
+    context: Listener.LoaderContext,
+    options: Listener.Options,
+  ) {
     super(context, {
       ...options,
       event: Events.MessageReactionAdd,
@@ -23,26 +26,41 @@ export class MessageReactionAdd extends Listener {
 
     const sentiment = getSentimentFromEmoji(messageReaction.emoji);
     const score = sentiment * Math.random() * 5;
-
-    await this.container.db.impression.create({
-      data: {
-        type: ImpressionType.REACTION,
-        discriminator: messageReaction.emoji.name,
-        score,
-        message: {
-          connect: {
-            id: messageReaction.message.id,
-          },
-        },
-        createdBy: {
-          connect: {
-            guildId_userId: {
-              userId: user.id,
-              guildId: messageReaction.message.guild.id,
+    await this.container.db.$transaction(async (prisma) => {
+      await Promise.all([
+        prisma.impression.create({
+          data: {
+            type: ImpressionType.REACTION,
+            discriminator:
+              messageReaction.emoji.name ?? messageReaction.emoji.identifier,
+            score,
+            message: {
+              connect: {
+                id: messageReaction.message.id,
+              },
+            },
+            createdBy: {
+              connect: {
+                guildId_userId: {
+                  userId: user.id,
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- inGuild() ensures this is not null
+                  guildId: messageReaction.message.guild!.id,
+                },
+              },
             },
           },
-        },
-      },
+        }),
+        prisma.message.update({
+          where: {
+            id: messageReaction.message.id,
+          },
+          data: {
+            calculatedScore: {
+              increment: score, // Simple increment
+            },
+          },
+        }),
+      ]);
     });
   }
 }

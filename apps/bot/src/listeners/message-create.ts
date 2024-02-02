@@ -2,7 +2,10 @@ import { Events, Listener } from "@sapphire/framework";
 import { type Message } from "discord.js";
 
 export class MessageCreateListener extends Listener {
-  public constructor(context: Listener.Context, options: Listener.Options) {
+  public constructor(
+    context: Listener.LoaderContext,
+    options: Listener.Options,
+  ) {
     super(context, {
       ...options,
       event: Events.MessageCreate,

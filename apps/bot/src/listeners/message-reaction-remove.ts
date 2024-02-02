@@ -3,7 +3,10 @@ import { ImpressionType } from "db";
 import { type MessageReaction, type User } from "discord.js";
 
 export class MessageReactionRemove extends Listener {
-  public constructor(context: Listener.Context, options: Listener.Options) {
+  public constructor(
+    context: Listener.LoaderContext,
+    options: Listener.Options,
+  ) {
     super(context, {
       ...options,
       event: Events.MessageReactionRemove,
@@ -20,16 +23,32 @@ export class MessageReactionRemove extends Listener {
 
     if (user.bot || !messageReaction.message.inGuild()) return;
 
-    // This should only ever delete one
-    await this.container.db.impression.deleteMany({
-      where: {
-        type: ImpressionType.REACTION,
-        discriminator: messageReaction.emoji.name,
-        createdBy: {
-          userId: user.id,
+    await this.container.db.$transaction(async (prisma) => {
+      const impression = await prisma.impression.delete({
+        where: {
+          discriminator_messageId_createdById_type: {
+            discriminator:
+              messageReaction.emoji.name ?? messageReaction.emoji.identifier,
+            messageId: messageReaction.message.id,
+            createdById: user.id,
+            type: ImpressionType.REACTION,
+          },
         },
-        message: { id: messageReaction.message.id },
-      },
+        select: {
+          score: true,
+        },
+      });
+
+      await prisma.message.update({
+        where: {
+          id: messageReaction.message.id,
+        },
+        data: {
+          calculatedScore: {
+            decrement: impression.score, // Simple decrement
+          },
+        },
+      });
     });
   }
 }

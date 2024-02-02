@@ -76,18 +76,10 @@ export class StocksTask extends ScheduledTask {
     const membersToUpdate: { id: string; newRate: Decimal }[] = [];
 
     for (const member of members) {
-      // add up score of all messages and impressions
-      const totalScores: Decimal[] = [];
-      for (const message of member.messages) {
-        const totalScore = message.baseScore;
-
-        for (const [index, impression] of message.impressions.entries()) {
-          totalScore.add(impression.score.mul(Decimal.ln(index + 1).add(2)));
-        }
-
-        // push the total score for this message to an array
-        totalScores.push(totalScore);
-      }
+      // get total scores of all messages and impressions
+      const totalScores: Decimal[] = member.messages.map(
+        (message) => message.calculatedScore,
+      );
 
       // from the last 20 stock prices and the total scores for each message since the last cron, calculate new rate
       let newRate = calculateNewRate(member.stockPrices, totalScores);
