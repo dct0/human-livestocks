@@ -1,16 +1,17 @@
 name: Docker Image CI
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
-      - "apps/bot"
-      - "packages"
+      - "apps/bot/**"
+      - "packages/**"
       - "*.*"
 
 jobs:
-  build-and-push:
-    name: Build and Push
+  build-push-bot:
+    name: Build and Push Bot Docker Image
     runs-on: ubuntu-latest
 
     permissions:
@@ -18,7 +19,8 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out code
+        uses: actions/checkout@v4
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
