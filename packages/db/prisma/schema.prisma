@@ -66,11 +66,12 @@ model Guild {
 }
 
 model Member {
-  id   String @id @default(cuid()) // * randomly generated
-  user User   @relation(fields: [userId], references: [id])
+  id           String  @id @default(cuid()) // * randomly generated
+  user         User    @relation(fields: [userId], references: [id])
+  currentPrice Decimal @default(0) // the current price of the stock
 
   messages    Message[]
-  stockPrices StockPrice[] // stores past and current stock price
+  stockPrices StockPrice[] // stores past and current stock prices
 
   guild       Guild        @relation(fields: [guildId], references: [id])
   guildId     String
@@ -82,13 +83,14 @@ model Member {
 }
 
 model Message {
-  id          String       @id @default(cuid())
-  content     String
-  attachments String[]
-  baseScore   Decimal
-  impressions Impression[]
-  createdBy   Member       @relation(fields: [createdById], references: [id])
-  createdById String
+  id              String       @id @default(cuid())
+  content         String
+  attachments     String[]
+  baseScore       Decimal
+  impressions     Impression[]
+  calculatedScore Decimal      @default(0)
+  createdBy       Member       @relation(fields: [createdById], references: [id])
+  createdById     String
 
   guildId   String
   channelId String
@@ -102,7 +104,7 @@ model Message {
 model Impression {
   id            String         @id @default(cuid())
   type          ImpressionType
-  discriminator String?
+  discriminator String
   score         Decimal
   message       Message        @relation(fields: [messageId], references: [id])
   messageId     String
@@ -111,6 +113,8 @@ model Impression {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt // remove?
+
+  @@unique([discriminator, messageId, createdById, type])
 }
 
 model StockPrice {
