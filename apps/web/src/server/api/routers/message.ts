@@ -20,12 +20,7 @@ export const messageRouter = createTRPCRouter({
         },
         orderBy: [
           {
-            impressions: {
-              _count: input.sentiment === "positive" ? "desc" : "asc", // TODO: use the calculated score
-            },
-          },
-          {
-            baseScore: input.sentiment === "positive" ? "desc" : "asc", // TODO: use the calculated score
+            calculatedScore: input.sentiment === "positive" ? "desc" : "asc",
           },
           {
             createdAt: "desc",
