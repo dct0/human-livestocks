@@ -1,32 +1,34 @@
-name: Bot Docker Image CI
+name: Docker Image CI
+
 on:
   push:
-    branches: 
-      - "main"
+    branches: [$default-branch]
     paths:
-      - 'apps/bot'
-      - 'packages'
-      - '*.*'
+      - "apps/bot"
+      - "packages"
+      - "*.*"
 
 jobs:
   build-and-push:
     name: Build and Push
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       packages: write
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v3
-      with:
-        registry: ghcr.io
-        username: ${{github.actor}}
-        password: ${{secrets.GITHUB_TOKEN}}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
 
-    - name: Build and push the bot Docker image
-      run: |
-        docker build . --file ./apps/bot/Dockerfile -t ghcr.io/for-the-bit/hmls-bot:latest -t ghcr.io/for-the-bit/hmls-bot:$(git rev-parse --short "$GITHUB_SHA")
-        docker push --all-tags ghcr.io/for-the-bit/hmls-bot
+      - name: Build Docker image
+        run: docker build -t ghcr.io/${{github.repository}}/bot:latest -f apps/bot/Dockerfile .
+
+      - name: Push Docker image
+        run: docker push ghcr.io/${{github.repository}}/bot:latest
