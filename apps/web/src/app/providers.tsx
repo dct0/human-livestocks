@@ -1,19 +1,10 @@
-"use client";
-
 import { TRPCReactProvider } from "@/trpc/react";
-import { type headers as nextHeaders } from "next/headers";
-import { Provider as JotaiProvider } from "jotai";
+import { cookies } from "next/headers";
 
-export default function Providers({
-  headers,
-  children,
-}: {
-  headers: ReturnType<typeof nextHeaders>;
-  children: React.ReactNode;
-}) {
+export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <JotaiProvider>
-      <TRPCReactProvider headers={headers}>{children}</TRPCReactProvider>
-    </JotaiProvider>
+    <TRPCReactProvider cookies={cookies().toString()}>
+      {children}
+    </TRPCReactProvider>
   );
 }
