@@ -8,12 +8,11 @@
  */
 
 import { initTRPC, TRPCError } from "@trpc/server";
-import { type NextRequest } from "next/server";
 import superjson from "superjson";
 
-import { ZodError } from "zod";
 import { getServerAuthSession } from "@/server/auth";
 import { db } from "@/server/db";
+import { ZodError } from "zod";
 
 /**
  * 1. CONTEXT
