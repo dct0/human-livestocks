@@ -97,7 +97,21 @@ export class StocksTask extends ScheduledTask {
     await this.container.db.$transaction(
       async (prisma) => {
         for await (const member of membersToUpdate) {
-          await prisma.stockPrice.addToMember(member.id, member.newRate);
+          await Promise.all([
+            prisma.member.update({
+              where: {
+                id: member.id,
+              },
+              data: {
+                stockPrices: {
+                  create: {
+                    price: member.newRate,
+                  },
+                },
+              },
+            }),
+            prisma.stockPrice.addToMember(member.id, member.newRate),
+          ]);
         }
 
         await prisma.guild.update({
