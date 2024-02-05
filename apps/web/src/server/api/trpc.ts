@@ -8,10 +8,10 @@
  */
 
 import { initTRPC, TRPCError } from "@trpc/server";
-import superjson from "superjson";
 
 import { getServerAuthSession } from "@/server/auth";
 import { db } from "@/server/db";
+import superjson from "@/utils/superjson";
 import { ZodError } from "zod";
 
 /**

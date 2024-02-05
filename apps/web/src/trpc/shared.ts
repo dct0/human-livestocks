@@ -1,5 +1,5 @@
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
-import superjson from "superjson";
+import superjson from "@/utils/superjson";
 
 import { type AppRouter } from "@/server/api/root";
 

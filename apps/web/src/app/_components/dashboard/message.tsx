@@ -102,7 +102,7 @@ export default function Message({
 
       <div className="absolute right-3 top-3 flex items-center">
         <Badge className="mr-2" color="yellow">
-          Score: {Number(calculatedScore).toFixed(2)}
+          Score: {calculatedScore.toFixed(2)}
         </Badge>
         <Link
           href={`https://discord.com/channels/${guildId}/${channelId}/${id}`}

@@ -22,7 +22,7 @@ export default function TopStocksChart() {
       const existing = dataMap.get(stock.createdAt) ?? {};
       dataMap.set(stock.createdAt, {
         ...existing,
-        [stock.member.user.name ?? stock.member.userId]: Number(stock.price), // user names are now unique so this is okay
+        [stock.member.user.name ?? stock.member.userId]: stock.price.toNumber(), // user names are now unique so this is okay
       });
     });
 
