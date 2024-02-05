@@ -1,5 +1,5 @@
 import MessageCardContent from "@/app/_components/dashboard/message-card-content";
-import StockChart from "@/app/_components/stock-chart";
+import StockChart from "@/app/dashboard/[guildId]/my-stats/stock-chart";
 import { Card, Col, Grid, Text, Title } from "@tremor/react";
 
 export default function MyStats() {

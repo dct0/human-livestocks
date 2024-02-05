@@ -20,7 +20,54 @@ export const stockRouter = createTRPCRouter({
           createdAt: input.orderBy,
         },
         where: {
-          memberId: ctx.session.user.id,
+          member: {
+            userId: ctx.session.user.id,
+          },
+        },
+      });
+    }),
+  getTop: protectedProcedure
+    .input(
+      z.object({
+        numMembers: z.number().min(0).max(10).default(5),
+        limit: z.number().min(0).max(100).default(20),
+        orderBy: z
+          .enum(zodEnum<Prisma.SortOrder>(["asc", "desc"]))
+          .default("desc"),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const topMembers = await ctx.db.member.findMany({
+        take: input.numMembers,
+        orderBy: {
+          currentPrice: "desc",
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      return ctx.db.stockPrice.findMany({
+        take: input.limit,
+        orderBy: {
+          price: input.orderBy,
+        },
+        where: {
+          memberId: {
+            in: topMembers.map((m) => m.id),
+          },
+        },
+        include: {
+          member: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
         },
       });
     }),
