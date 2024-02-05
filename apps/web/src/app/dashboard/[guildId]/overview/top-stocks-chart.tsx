@@ -38,5 +38,12 @@ export default function TopStocksChart() {
       }));
   }, [stocks]);
 
-  return <LineChart data={data} index="createdAt" categories={categories} />;
+  return (
+    <LineChart
+      data={data}
+      index="createdAt"
+      categories={categories}
+      connectNulls
+    />
+  );
 }

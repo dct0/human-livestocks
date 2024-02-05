@@ -13,7 +13,7 @@ export default function Overview() {
       </Col>
       <Col numColSpanMd={1} numColSpan={1}>
         <Card className="h-full">
-          <Title className="mb-2">Top stocks</Title>
+          <Title className="mb-2">Leaderboard</Title>
         </Card>
       </Col>
       <Col numColSpanMd={2} numColSpan={1}>
