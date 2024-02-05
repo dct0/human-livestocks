@@ -126,6 +126,7 @@ model StockPrice {
 
   createdAt DateTime @default(now())
 
+  @@unique([memberId, price, createdAt])
   @@index([memberId, createdAt(sort: Desc)])
 }
 

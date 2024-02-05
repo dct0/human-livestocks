@@ -1,0 +1,26 @@
+{
+  "extends": "tsconfig/base.json",
+  "include": ["."],
+  "exclude": ["dist", "node_modules"],
+  "compilerOptions": {
+    "declaration": false,
+    "declarationMap": false,
+    /* Base Options: */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+    },
+  },
+  "ts-node": {
+    "require": ["tsconfig-paths/register"],
+  },
+}
