@@ -17,5 +17,12 @@ export default function StockChart() {
       .toReversed();
   }, [stocks]);
 
-  return <LineChart data={data} index="createdAt" categories={["price"]} />;
+  return (
+    <LineChart
+      data={data}
+      index="createdAt"
+      categories={["price"]}
+      connectNulls
+    />
+  );
 }

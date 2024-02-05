@@ -103,10 +103,8 @@ export class StocksTask extends ScheduledTask {
                 id: member.id,
               },
               data: {
-                stockPrices: {
-                  create: {
-                    price: member.newRate,
-                  },
+                currentPrice: {
+                  set: member.newRate,
                 },
               },
             }),
