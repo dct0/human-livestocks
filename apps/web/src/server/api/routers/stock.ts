@@ -36,36 +36,23 @@ export const stockRouter = createTRPCRouter({
           .default("desc"),
       }),
     )
-    .query(async ({ ctx, input }) => {
-      const topMembers = await ctx.db.member.findMany({
+    .query(({ ctx, input }) => {
+      return ctx.db.member.findMany({
         take: input.numMembers,
         orderBy: {
           currentPrice: "desc",
         },
         select: {
-          id: true,
-        },
-      });
-
-      return ctx.db.stockPrice.findMany({
-        take: input.limit,
-        orderBy: {
-          createdAt: input.orderBy,
-        },
-        where: {
-          memberId: {
-            in: topMembers.map((m) => m.id),
+          user: {
+            select: {
+              id: true,
+              name: true,
+            },
           },
-        },
-        include: {
-          member: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                },
-              },
+          stockPrices: {
+            take: input.limit,
+            orderBy: {
+              createdAt: input.orderBy,
             },
           },
         },

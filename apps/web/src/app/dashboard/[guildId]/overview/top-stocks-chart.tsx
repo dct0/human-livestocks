@@ -3,56 +3,54 @@
 import { api } from "@/trpc/react";
 import { LineChart } from "@tremor/react";
 import { useMemo } from "react";
+import { string } from "zod";
 
 const formatDate = (date: Date) => {
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 };
 
 export default function TopStocksChart() {
-  const { data: stocks } = api.stock.getTop.useQuery({});
+  const { data: topMembers } = api.stock.getTop.useQuery({});
 
   const categories = useMemo(() => {
-    if (!stocks) return [];
-
-    const uniqueMembers = new Set(
-      stocks.map((stock) => stock.member.user.name ?? stock.member.userId),
-    );
-
-    return Array.from(uniqueMembers);
-  }, [stocks]);
+    if (!topMembers) return [];
+    return topMembers.map((member) => member.user.name ?? member.user.id) ?? [];
+  }, [topMembers]);
 
   const data = useMemo(() => {
-    if (!stocks) return [];
+    if (!topMembers) return [];
 
-    const dataMap = new Map<string, Record<string, number>>();
+    console.log(topMembers);
 
-    for (const stock of stocks) {
-      const existing = dataMap.get(formatDate(stock.createdAt)) ?? {};
-      dataMap.set(formatDate(stock.createdAt), {
-        ...existing,
-        [stock.member.user.name ?? stock.member.userId]: stock.price.toNumber(), // user names are now unique so this is okay
-      });
+    const dateMap = new Map<string, Record<string, number>>();
+
+    for (const member of topMembers) {
+      for (const stock of member.stockPrices) {
+        const date = formatDate(new Date(stock.createdAt));
+        const existing = dateMap.get(date) ?? {};
+
+        const prices = {
+          ...existing,
+          [member.user.name ?? member.user.id]: stock.price.toNumber(),
+        };
+
+        dateMap.set(date, prices);
+      }
     }
 
-    return Array.from(dataMap.entries())
-      .map(([date, values]) => ({
-        date,
-        ...values,
-      }))
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-      .map((dataPoint) => {
-        const date = new Date(dataPoint.date);
-        const formattedDate = date.toLocaleString("default", {
+    const dates = Array.from(dateMap.keys()).sort();
+    const result = dates.map((date) => {
+      const prices = dateMap.get(date) ?? {};
+      return {
+        date: new Date(date).toLocaleString("default", {
           month: "short",
-          day: "2-digit",
-        });
-
-        return {
-          ...dataPoint,
-          date: formattedDate,
-        };
-      });
-  }, [stocks]);
+          day: "numeric",
+        }),
+        ...prices,
+      };
+    });
+    return result;
+  }, [topMembers]);
 
   return (
     <LineChart data={data} index="date" categories={categories} connectNulls />

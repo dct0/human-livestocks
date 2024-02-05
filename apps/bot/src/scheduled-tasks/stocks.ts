@@ -4,7 +4,7 @@ import { calculateNewRate } from "stocks";
 
 export class StocksTask extends ScheduledTask {
   public constructor(
-    context: ScheduledTask.Context,
+    context: ScheduledTask.LoaderContext,
     options: ScheduledTask.Options,
   ) {
     super(context, {
