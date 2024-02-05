@@ -50,7 +50,7 @@ export const stockRouter = createTRPCRouter({
       return ctx.db.stockPrice.findMany({
         take: input.limit,
         orderBy: {
-          price: input.orderBy,
+          createdAt: input.orderBy,
         },
         where: {
           memberId: {
