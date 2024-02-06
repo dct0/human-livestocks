@@ -11,6 +11,7 @@ export class StocksTask extends ScheduledTask {
       ...options,
       name: "stocks-calculation",
       pattern: "30 4 * * *", // at 4:30am server time every day, for now...
+      // interval: 15000,
       customJobOptions: {
         jobId: "stocks-calculation", // ensure there's only one, for now...
       },
@@ -22,15 +23,17 @@ export class StocksTask extends ScheduledTask {
     const guilds = await this.container.db.guild.findMany({});
 
     // TODO: a scheduled task for each guild
-    const query = guilds.map((guild) => this.updateStocksForGuild(guild.id));
-    await Promise.all(query);
+    await Promise.all(
+      guilds.map((guild) => {
+        this.container.logger.info(`Updating stocks for guild ${guild.id}`);
+        return this.updateStocksForGuild(guild.id);
+      }),
+    );
 
     this.container.logger.info("Stocks updated!");
   }
 
   private async updateStocksForGuild(guildId: string): Promise<void> {
-    this.container.logger.info(`Updating stocks for guild ${guildId}`);
-
     const now = new Date();
 
     const { lastCronnedAt } = await this.container.db.guild.findUniqueOrThrow({
@@ -41,10 +44,12 @@ export class StocksTask extends ScheduledTask {
 
     // find members to calculate stocks for
     const members = await this.container.db.member.findMany({
+      where: {
+        guildId,
+      },
       include: {
         messages: {
           where: {
-            guildId,
             createdAt: {
               gte: lastCronnedAt ?? new Date(0),
             },
@@ -83,10 +88,13 @@ export class StocksTask extends ScheduledTask {
 
       // from the last 20 stock prices and the total scores for each message since the last cron, calculate new rate
       let newRate = calculateNewRate(member.stockPrices, totalScores);
+
+      // if the new rate is NaN, set it to 98% of the last stock price
       if (newRate.isNaN()) {
         // should always be one stock price but just in case...
-        newRate = member.stockPrices[0]?.price.mul(0.95) ?? new Decimal(0);
+        newRate = member.stockPrices[0]?.price.mul(0.98) ?? new Decimal(0);
       }
+
       membersToUpdate.push({
         id: member.id,
         newRate,
@@ -96,9 +104,9 @@ export class StocksTask extends ScheduledTask {
     // TODO: maybe we should store the cron date on the member instead of the guild
     await this.container.db.$transaction(
       async (prisma) => {
-        for await (const member of membersToUpdate) {
-          await Promise.all([
-            prisma.member.update({
+        await Promise.all(
+          membersToUpdate.map((member) => {
+            return prisma.member.update({
               where: {
                 id: member.id,
               },
@@ -106,11 +114,15 @@ export class StocksTask extends ScheduledTask {
                 currentPrice: {
                   set: member.newRate,
                 },
+                stockPrices: {
+                  create: {
+                    price: member.newRate,
+                  },
+                },
               },
-            }),
-            prisma.stockPrice.addToMember(member.id, member.newRate),
-          ]);
-        }
+            });
+          }),
+        );
 
         await prisma.guild.update({
           where: {
@@ -124,6 +136,8 @@ export class StocksTask extends ScheduledTask {
       {
         // go as fast as possible
         isolationLevel: "ReadUncommitted",
+        maxWait: 20000,
+        timeout: 20000,
       },
     );
 

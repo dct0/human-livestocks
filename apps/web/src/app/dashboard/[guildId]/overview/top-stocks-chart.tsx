@@ -3,7 +3,6 @@
 import { api } from "@/trpc/react";
 import { LineChart } from "@tremor/react";
 import { useMemo } from "react";
-import { string } from "zod";
 
 const formatDate = (date: Date) => {
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
@@ -19,8 +18,6 @@ export default function TopStocksChart() {
 
   const data = useMemo(() => {
     if (!topMembers) return [];
-
-    console.log(topMembers);
 
     const dateMap = new Map<string, Record<string, number>>();
 

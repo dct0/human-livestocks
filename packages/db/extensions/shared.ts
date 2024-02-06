@@ -100,18 +100,6 @@ export default Prisma.defineExtension((client) => {
             },
           });
         },
-        async addToMember(memberId: string, price: Decimal) {
-          return client.stockPrice.create({
-            data: {
-              price,
-              member: {
-                connect: {
-                  id: memberId,
-                },
-              },
-            },
-          });
-        },
       },
     },
   });
