@@ -105,6 +105,9 @@ importers:
       db:
         specifier: workspace:*
         version: link:../../packages/db
+      decimal.js:
+        specifier: ^10.4.3
+        version: 10.4.3
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@20.11.6)(typescript@5.3.3)
