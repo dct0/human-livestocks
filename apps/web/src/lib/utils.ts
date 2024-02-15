@@ -22,4 +22,4 @@ export function formatAsGraphDate(date: Date | string) {
   });
 }
 
-export const zodEnum = <T,>(arr: T[]): [T, ...T[]] => arr as [T, ...T[]];
+export const zodEnum = <T>(arr: T[]): [T, ...T[]] => arr as [T, ...T[]];
