@@ -1,5 +1,6 @@
 "use client";
 
+import { formatAsGraphDate } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { LineChart } from "@tremor/react";
 import { useMemo } from "react";
@@ -12,9 +13,9 @@ export default function StockChart() {
     return stocks
       .map((stockPrice) => ({
         ...stockPrice,
-        createdAt: stockPrice.createdAt.toLocaleString(),
+        createdAt: formatAsGraphDate(stockPrice.createdAt),
       }))
-      .toReversed();
+      .toReversed(); // api should return in order so no need to sort
   }, [stocks]);
 
   return (

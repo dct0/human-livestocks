@@ -12,4 +12,14 @@ export function getInitials(name: string) {
     .join("");
 }
 
-export const zodEnum = <T>(arr: T[]): [T, ...T[]] => arr as [T, ...T[]];
+export function formatAsGraphDate(date: Date | string) {
+  if (typeof date === "string") {
+    date = new Date(date);
+  }
+  return date.toLocaleDateString("default", {
+    month: "short",
+    day: "numeric",
+  });
+}
+
+export const zodEnum = <T,>(arr: T[]): [T, ...T[]] => arr as [T, ...T[]];
