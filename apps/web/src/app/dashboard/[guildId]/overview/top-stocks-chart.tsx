@@ -1,11 +1,13 @@
 "use client";
 
+import { formatAsGraphDate } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { LineChart } from "@tremor/react";
 import { useMemo } from "react";
 
-const formatDate = (date: Date) => {
-  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+// Rounds date to nearest day
+const truncateDate = (date: Date) => {
+  return date.toISOString().split("T")[0]!;
 };
 
 export default function TopStocksChart() {
@@ -23,7 +25,7 @@ export default function TopStocksChart() {
 
     for (const member of topMembers) {
       for (const stock of member.stockPrices) {
-        const date = formatDate(new Date(stock.createdAt));
+        const date = truncateDate(new Date(stock.createdAt));
         const existing = dateMap.get(date) ?? {};
 
         const prices = {
@@ -35,14 +37,11 @@ export default function TopStocksChart() {
       }
     }
 
-    const dates = Array.from(dateMap.keys()).sort();
+    const dates = Array.from(dateMap.keys()).sort((a, b) => a.localeCompare(b));
     const result = dates.map((date) => {
       const prices = dateMap.get(date) ?? {};
       return {
-        date: new Date(date).toLocaleString("default", {
-          month: "short",
-          day: "numeric",
-        }),
+        date: formatAsGraphDate(date),
         ...prices,
       };
     });

@@ -1,9 +1,7 @@
-name: CI
+name: CI Dev
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
   pull_request:
     types: [opened, synchronize, reopened, edited]
 
@@ -47,6 +45,7 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     container: node:18-alpine
+    environment: dev
 
     env:
       DB_USER: postgres
@@ -61,9 +60,9 @@ jobs:
           POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
           POSTGRES_DB: ${{ env.DB_NAME }}
         options: >-
-          --health-cmd pg_isready 
-          --health-interval 10s 
-          --health-timeout 5s 
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
           --health-retries 5
 
     steps:
@@ -86,11 +85,18 @@ jobs:
 
       - name: Check Migrations and Schema Match
         run: >-
-          pnpx prisma migrate diff 
-          --exit-code 
-          --from-migrations 'packages/db/prisma/migrations' 
-          --to-schema-datamodel 'packages/db/prisma/schema.prisma' 
+          pnpx prisma migrate diff
+          --exit-code
+          --from-migrations 'packages/db/prisma/migrations'
+          --to-schema-datamodel 'packages/db/prisma/schema.prisma'
           --shadow-database-url 'postgres://${{ env.DB_USER }}:${{ env.DB_PASSWORD }}@postgres:5432/${{ env.DB_NAME }}/?schema=public'
+
+      - name: Apply Migrations
+        run: >-
+          pnpm db:deploy
+        env:
+          POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+          POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
 
       - name: Build
         run: pnpm build
