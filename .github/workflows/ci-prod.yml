@@ -40,4 +40,4 @@ jobs:
           pnpm db:deploy
         env:
           POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
-          POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_PRISMA_URL_NON_POOLING }}
+          POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
