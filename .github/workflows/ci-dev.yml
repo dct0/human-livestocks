@@ -1,9 +1,7 @@
-name: CI
+name: CI Dev
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
   pull_request:
     types: [opened, synchronize, reopened, edited]
 
@@ -47,6 +45,7 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     container: node:18-alpine
+    environment: dev
 
     env:
       DB_USER: postgres
@@ -96,8 +95,8 @@ jobs:
         run: >-
           pnpm db:deploy
         env:
-          POSTGRES_PRISMA_URL: ${{ env.POSTGRES_PRISMA_URL }}
-          POSTGRES_URL_NON_POOLING: ${{ env.POSTGRES_PRISMA_URL_NON_POOLING }}
+          POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+          POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_PRISMA_URL_NON_POOLING }}
 
       - name: Build
         run: pnpm build
