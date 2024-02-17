@@ -9,6 +9,7 @@ import Message from "./message";
 export type MessageCardContentProps = {
   title: ReactNode;
   own: boolean;
+  guildId?: string;
 };
 
 const getIndex = (sentiment: RouterInputs["message"]["get"]["sentiment"]) => {
@@ -23,10 +24,15 @@ const getIndex = (sentiment: RouterInputs["message"]["get"]["sentiment"]) => {
 export default function MessageCardContent({
   title,
   own,
+  guildId,
 }: MessageCardContentProps) {
   const [sentiment, setSentiment] =
     useState<RouterInputs["message"]["get"]["sentiment"]>("positive");
-  const { data: messages } = api.message.get.useQuery({ sentiment, own });
+  const { data: messages } = api.message.get.useQuery({
+    sentiment,
+    own,
+    guildId,
+  });
 
   return (
     <>

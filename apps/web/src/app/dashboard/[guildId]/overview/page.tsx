@@ -1,8 +1,9 @@
 import MessageCardContent from "@/app/_components/dashboard/message-card-content";
 import { Card, Col, Grid, Title } from "@tremor/react";
 import TopStocksChart from "./top-stocks-chart";
+import { GuildDashboardLayoutProps } from "../types";
 
-export default function Overview() {
+export default function Overview({ params }: GuildDashboardLayoutProps) {
   return (
     <Grid className="gap-4" numItemsMd={3} numItems={1}>
       <Col numColSpanMd={3} numColSpan={1}>
@@ -20,6 +21,7 @@ export default function Overview() {
         <Card className="h-full">
           <MessageCardContent
             title={<Title>Top Messages (past week)</Title>}
+            guildId={params.guildId}
             own={false}
           />
         </Card>
