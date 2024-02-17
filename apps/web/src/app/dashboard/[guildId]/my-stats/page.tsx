@@ -1,7 +1,7 @@
 import MessageCardContent from "@/app/_components/dashboard/message-card-content";
 import StockChart from "@/app/dashboard/[guildId]/my-stats/stock-chart";
 import { Card, Col, Grid, Text, Title } from "@tremor/react";
-import { GuildDashboardLayoutProps } from "../types";
+import { type GuildDashboardLayoutProps } from "../types";
 
 export default function MyStats({ params }: GuildDashboardLayoutProps) {
   return (
