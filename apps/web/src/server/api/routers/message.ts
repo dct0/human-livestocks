@@ -9,11 +9,13 @@ export const messageRouter = createTRPCRouter({
         limit: z.number().min(0).max(100).default(10),
         sentiment: z.enum(["positive", "negative"]).default("positive"),
         own: z.boolean(),
+        guildId: z.string().optional(),
       }),
     )
     .query(({ ctx, input }) => {
       return ctx.db.message.findMany({
         where: {
+          guildId: input.guildId,
           // createdAt less than a week ago
           createdBy: input.own ? { userId: ctx.session.user.id } : undefined,
           createdAt: { gt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
