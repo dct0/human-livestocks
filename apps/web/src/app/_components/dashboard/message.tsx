@@ -71,7 +71,7 @@ export default function Message({
         </AvatarFallback>
       </Avatar>
       <div>
-        <div className="flex items-end">
+        <header className="flex items-end">
           <h3 className="font-bold text-tremor-content-strong dark:text-dark-tremor-content-strong">
             {name}
             <time
@@ -81,7 +81,7 @@ export default function Message({
               {timestamp?.toLocaleString()}
             </time>
           </h3>
-        </div>
+        </header>
         <p className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
           {content}
         </p>
@@ -90,7 +90,7 @@ export default function Message({
             {reactions.map((reaction) => (
               <div
                 key={reaction.discriminator}
-                className="flex items-center gap-1 rounded-full bg-gray-800 px-2 py-1 text-xs font-bold text-tremor-content-emphasis dark:text-dark-tremor-content-emphasis"
+                className="flex items-center gap-1 rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-tremor-content-emphasis dark:bg-gray-800 dark:text-dark-tremor-content-emphasis"
               >
                 <span>{reaction.discriminator}</span>
                 <span>{reaction.count}</span>
