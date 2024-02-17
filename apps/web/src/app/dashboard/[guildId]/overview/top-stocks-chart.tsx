@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/app/_components/ui/skeleton";
 import { formatAsGraphDate } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { LineChart } from "@tremor/react";
@@ -11,7 +12,7 @@ const truncateDate = (date: Date) => {
 };
 
 export default function TopStocksChart() {
-  const { data: topMembers } = api.stock.getTop.useQuery({});
+  const { data: topMembers, isFetched } = api.stock.getTop.useQuery({});
 
   const categories = useMemo(() => {
     if (!topMembers) return [];
@@ -48,7 +49,9 @@ export default function TopStocksChart() {
     return result;
   }, [topMembers]);
 
-  return (
+  return isFetched ? (
     <LineChart data={data} index="date" categories={categories} connectNulls />
+  ) : (
+    <Skeleton className="h-80" />
   );
 }

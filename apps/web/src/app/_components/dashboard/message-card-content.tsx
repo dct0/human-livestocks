@@ -4,6 +4,7 @@ import { type RouterInputs } from "@/trpc/shared";
 import { Tab, TabGroup, TabList } from "@tremor/react";
 import { Flame, Skull } from "lucide-react";
 import { useState, type ReactNode } from "react";
+import { Skeleton } from "../ui/skeleton";
 import Message from "./message";
 
 export type MessageCardContentProps = {
@@ -28,7 +29,7 @@ export default function MessageCardContent({
 }: MessageCardContentProps) {
   const [sentiment, setSentiment] =
     useState<RouterInputs["message"]["get"]["sentiment"]>("positive");
-  const { data: messages } = api.message.get.useQuery({
+  const { data: messages, isFetched } = api.message.get.useQuery({
     sentiment,
     own,
     guildId,
@@ -53,9 +54,15 @@ export default function MessageCardContent({
           </TabList>
         </TabGroup>
       </div>
-      <div className="flex max-h-96 flex-col overflow-y-auto">
-        {messages?.map((message) => <Message key={message.id} {...message} />)}
-      </div>
+      {isFetched ? (
+        <div className="flex max-h-96 flex-col overflow-y-auto">
+          {messages?.map((message) => (
+            <Message key={message.id} {...message} />
+          ))}
+        </div>
+      ) : (
+        <Skeleton className="h-48" />
+      )}
     </>
   );
 }

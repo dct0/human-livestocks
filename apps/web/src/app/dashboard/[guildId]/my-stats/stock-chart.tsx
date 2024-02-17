@@ -1,12 +1,13 @@
 "use client";
 
+import { Skeleton } from "@/app/_components/ui/skeleton";
 import { formatAsGraphDate } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { LineChart } from "@tremor/react";
 import { useMemo } from "react";
 
 export default function StockChart() {
-  const { data: stocks } = api.stock.get.useQuery({});
+  const { data: stocks, isFetched } = api.stock.get.useQuery({});
 
   const data = useMemo(() => {
     if (!stocks) return [];
@@ -18,12 +19,14 @@ export default function StockChart() {
       .toReversed(); // api should return in order so no need to sort
   }, [stocks]);
 
-  return (
+  return isFetched ? (
     <LineChart
       data={data}
       index="createdAt"
       categories={["price"]}
       connectNulls
     />
+  ) : (
+    <Skeleton className="h-80" />
   );
 }
