@@ -1,7 +1,7 @@
 import { getServerAuthSession } from "@/server/auth";
 import { Text, Title } from "@tremor/react";
 import { getProviders } from "next-auth/react";
-import LoginPanel from "../../_components/login-panel";
+import LoginPanel from "@/app/_components/login-panel";
 
 export default async function Login() {
   const providers = await getProviders();

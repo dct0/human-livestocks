@@ -12,5 +12,6 @@ export const providerToIconMap: Partial<
 export const providerToColorMap: Partial<
   Record<ClientSafeProvider["id"], ClassValue>
 > = {
-  discord: "!bg-icon-discord hover:!bg-icon-discord-hover",
+  discord:
+    "!bg-icon-discord hover:!bg-icon-discord-hover !text-gray-50 !border-none",
 };
