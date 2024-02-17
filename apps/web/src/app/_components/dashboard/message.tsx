@@ -63,7 +63,7 @@ export default function Message({
   }, [impressions]);
 
   return (
-    <article className="bg-tremor-background-muted hover:bg-tremor-background-muted dark:bg-dark-tremor-background-muted dark:hover:bg-gray-925 group relative flex gap-3 py-2 pl-4 pr-6 first:rounded-t-lg first:pt-4 last:rounded-b-lg last:pb-4">
+    <article className="group relative flex gap-3 bg-tremor-background-muted py-2 pl-4 pr-6 first:rounded-t-lg first:pt-4 last:rounded-b-lg last:pb-4 hover:bg-tremor-background-muted dark:bg-dark-tremor-background-muted dark:hover:bg-gray-925">
       <Avatar className="mt-1">
         <AvatarImage src={createdBy.user.image!} alt={`@${name}`} />
         <AvatarFallback>
@@ -72,10 +72,10 @@ export default function Message({
       </Avatar>
       <div>
         <header className="flex items-end">
-          <h3 className="text-tremor-content-strong dark:text-dark-tremor-content-strong font-bold">
+          <h3 className="font-bold text-tremor-content-strong dark:text-dark-tremor-content-strong">
             {name}
             <time
-              className="text-tremor-content-subtle dark:text-dark-tremor-content-subtle ml-2 text-sm font-normal"
+              className="ml-2 text-sm font-normal text-tremor-content-subtle dark:text-dark-tremor-content-subtle"
               dateTime={timestamp?.toISOString()}
             >
               {timestamp?.toLocaleString()}
@@ -90,7 +90,7 @@ export default function Message({
             {reactions.map((reaction) => (
               <div
                 key={reaction.discriminator}
-                className="text-tremor-content-emphasis dark:text-dark-tremor-content-emphasis flex items-center gap-1 rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold dark:bg-gray-800"
+                className="flex items-center gap-1 rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-tremor-content-emphasis dark:bg-gray-800 dark:text-dark-tremor-content-emphasis"
               >
                 <span>{reaction.discriminator}</span>
                 <span>{reaction.count}</span>
