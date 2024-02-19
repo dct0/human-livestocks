@@ -15,7 +15,7 @@ export class MessageDeleteListener extends Listener {
   public async run(message: Message): Promise<void> {
     this.container.logger.info(`Message deleted: ${message.content}`);
 
-    if (!message.inGuild() || message.author.bot) return; // allow specific bots later
+    if (!message.inGuild()) return;
 
     await this.container.db.message.delete({
       where: {

@@ -63,37 +63,38 @@ model Guild {
   iconURL       String?
   members       Member[]
   lastCronnedAt DateTime? // last time cron job was run for this guild
+  Message       Message[]
 }
 
 model Member {
   id           String  @id @default(cuid()) // * randomly generated
-  user         User    @relation(fields: [userId], references: [id])
   currentPrice Decimal @default(0) // the current price of the stock
 
-  messages    Message[]
-  stockPrices StockPrice[] // stores past and current stock prices
-
+  user        User         @relation(fields: [userId], references: [id])
+  userId      String
   guild       Guild        @relation(fields: [guildId], references: [id])
   guildId     String
+  messages    Message[]
+  stockPrices StockPrice[] // stores past and current stock prices
   impressions Impression[]
-  userId      String
 
   @@unique([guildId, userId])
   @@index([guildId, userId])
 }
 
 model Message {
-  id              String       @id @default(cuid())
+  id              String   @id @default(cuid())
   content         String
   attachments     String[]
   baseScore       Decimal
-  impressions     Impression[]
-  calculatedScore Decimal      @default(0)
-  createdBy       Member       @relation(fields: [createdById], references: [id])
-  createdById     String
+  calculatedScore Decimal  @default(0)
+  channelId       String
 
-  guildId   String
-  channelId String
+  createdBy   Member       @relation(fields: [createdById], references: [id])
+  createdById String
+  guild       Guild        @relation(fields: [guildId], references: [id])
+  guildId     String
+  impressions Impression[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -106,10 +107,11 @@ model Impression {
   type          ImpressionType
   discriminator String
   score         Decimal
-  message       Message        @relation(fields: [messageId], references: [id])
-  messageId     String
-  createdBy     Member         @relation(fields: [createdById], references: [id])
-  createdById   String
+
+  message     Message @relation(fields: [messageId], references: [id])
+  messageId   String
+  createdBy   Member  @relation(fields: [createdById], references: [id])
+  createdById String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt // remove?

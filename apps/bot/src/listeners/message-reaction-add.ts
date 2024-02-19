@@ -1,6 +1,7 @@
 import { Events, Listener } from "@sapphire/framework";
 import { ImpressionType } from "db";
 import { type MessageReaction, type User } from "discord.js";
+import { randomBetween } from "../utils/random";
 import { getSentimentFromEmoji } from "../utils/reactions";
 
 export class MessageReactionAdd extends Listener {
@@ -22,10 +23,10 @@ export class MessageReactionAdd extends Listener {
       `Reaction received: ${messageReaction.emoji.name} from ${user.username}`,
     );
 
-    if (user.bot || !messageReaction.message.inGuild()) return;
+    if (!messageReaction.message.inGuild()) return;
 
     const sentiment = getSentimentFromEmoji(messageReaction.emoji);
-    const score = sentiment * Math.random() * 5;
+    const score = sentiment * randomBetween(5, 7);
     await this.container.db.$transaction(async (prisma) => {
       await Promise.all([
         prisma.impression.create({

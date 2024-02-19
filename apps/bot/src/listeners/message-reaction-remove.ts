@@ -21,21 +21,31 @@ export class MessageReactionRemove extends Listener {
       `Reaction removed: ${messageReaction.emoji.name} from ${user.username}`,
     );
 
-    if (user.bot || !messageReaction.message.inGuild()) return;
+    if (!messageReaction.message.inGuild()) return;
 
     await this.container.db.$transaction(async (prisma) => {
-      const impression = await prisma.impression.delete({
+      // apparently can't nested query by compound key
+      const { id: memberId } = await prisma.member.findUniqueOrThrow({
         where: {
-          discriminator_messageId_createdById_type: {
-            discriminator:
-              messageReaction.emoji.name ?? messageReaction.emoji.identifier,
-            messageId: messageReaction.message.id,
-            createdById: user.id,
-            type: ImpressionType.REACTION,
+          guildId_userId: {
+            userId: user.id,
+            guildId: messageReaction.message.guild!.id, // eslint-disable-line @typescript-eslint/no-non-null-assertion -- inGuild() ensures this is not null
           },
         },
         select: {
-          score: true,
+          id: true,
+        },
+      });
+
+      const impression = await prisma.impression.delete({
+        where: {
+          discriminator_messageId_createdById_type: {
+            createdById: memberId,
+            discriminator:
+              messageReaction.emoji.name ?? messageReaction.emoji.identifier,
+            messageId: messageReaction.message.id,
+            type: ImpressionType.REACTION,
+          },
         },
       });
 

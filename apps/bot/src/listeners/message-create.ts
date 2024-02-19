@@ -1,5 +1,6 @@
 import { Events, Listener } from "@sapphire/framework";
 import { type Message } from "discord.js";
+import { randomBetween } from "../utils/random";
 
 export class MessageCreateListener extends Listener {
   public constructor(
@@ -17,9 +18,9 @@ export class MessageCreateListener extends Listener {
       `Message received (${message.id}): ${message.content}`,
     );
 
-    if (!message.inGuild()) return; // whitelist bots later
+    if (!message.inGuild()) return;
 
-    const score = Math.random() * 6 - 2; // Score of the message is between -2 and 4
+    const score = randomBetween(-1, 1);
 
     await this.container.db.message.add(message, score);
   }

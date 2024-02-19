@@ -39,7 +39,6 @@ export const calculateNewRate = (
   const stockPriceAverage = calculateAverage(
     pastStocks.map((stock) => stock.price),
   );
-  // const averageScore = calculateAverage(scores);
 
   // weight the deviation by the volatility of the scores
   const rmsScore = calculateRMS(scores);
