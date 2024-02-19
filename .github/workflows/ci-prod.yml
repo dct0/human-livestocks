@@ -14,7 +14,7 @@ jobs:
     name: Deploy
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    container: node:18-alpine
+    container: node:20-alpine
     environment: prod
 
     steps:
