@@ -63,7 +63,7 @@ export default Prisma.defineExtension((client) => {
             update: {
               user: {
                 connect: {
-                  id: message.author.id,
+                  id: user.id,
                 },
               },
             },
@@ -83,7 +83,11 @@ export default Prisma.defineExtension((client) => {
                   id: member.id,
                 },
               },
-              guildId: message.guild?.id,
+              guild: {
+                connect: {
+                  id: guild.id,
+                },
+              },
               channelId: message.channel.id,
             },
           });
