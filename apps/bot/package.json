@@ -18,7 +18,7 @@
     "bullmq": "^4.17.0",
     "db": "workspace:*",
     "decimal.js": "^10.4.3",
-    "discord-api-types": "0.37.61",
+    "discord-api-types": "0.37.70",
     "discord.js": "~14.14.0",
     "dotenv": "^16.4.0",
     "ioredis": "^5.3.2",
