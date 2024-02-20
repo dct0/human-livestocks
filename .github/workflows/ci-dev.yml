@@ -45,7 +45,7 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     container: node:20-alpine
-    environment: dev
+    # environment: dev
 
     env:
       DB_USER: postgres
@@ -91,12 +91,12 @@ jobs:
           --to-schema-datamodel 'packages/db/prisma/schema.prisma'
           --shadow-database-url 'postgres://${{ env.DB_USER }}:${{ env.DB_PASSWORD }}@postgres:5432/${{ env.DB_NAME }}/?schema=public'
 
-      - name: Apply Migrations
-        run: >-
-          pnpm db:deploy
-        env:
-          POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
-          POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
+      # - name: Apply Migrations
+      #   run: >-
+      #     pnpm db:deploy
+      #   env:
+      #     POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+      #     POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
 
       - name: Build
         run: pnpm build
