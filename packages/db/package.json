@@ -13,7 +13,7 @@
     "db:deploy": "prisma migrate deploy"
   },
   "devDependencies": {
-    "discord.js": "~14.13.0",
+    "discord.js": "~14.14.0",
     "eslint-config-custom": "workspace:*",
     "typescript": "^5.3.3"
   },
