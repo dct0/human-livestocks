@@ -14,7 +14,7 @@
     "@sapphire/plugin-api": "^5.2.0",
     "@sapphire/plugin-hmr": "^2.0.3",
     "@sapphire/plugin-logger": "^3.0.7",
-    "@sapphire/plugin-scheduled-tasks": "^8.1.0",
+    "@sapphire/plugin-scheduled-tasks": "^10.0.0",
     "bullmq": "^4.17.0",
     "db": "workspace:*",
     "decimal.js": "^10.4.3",

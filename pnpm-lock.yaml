@@ -42,8 +42,8 @@ importers:
         specifier: ^3.0.7
         version: 3.0.7
       '@sapphire/plugin-scheduled-tasks':
-        specifier: ^8.1.0
-        version: 8.1.0
+        specifier: ^10.0.0
+        version: 10.0.1
       bullmq:
         specifier: ^4.17.0
         version: 4.17.0
@@ -1577,13 +1577,13 @@ packages:
       colorette: 2.0.20
     dev: false
 
-  /@sapphire/plugin-scheduled-tasks@8.1.0:
-    resolution: {integrity: sha512-bjx89ifD0DrRAPP4ICpTtomD00M0kY/x90VdLDbp3oWw2i5tnvw++NyhcjmIDD9EJi5srKkjIw1H8QUX+AaQ0Q==}
+  /@sapphire/plugin-scheduled-tasks@10.0.1:
+    resolution: {integrity: sha512-/wS4mlyh5oRo3ADmkDEywNyb0hdUUJuudc5Nz9kuYWSpYZMWhecI24N6m8i4ktMdclLriV+ppW3jxZzGyD22LQ==}
     engines: {node: '>=v18', npm: '>=7'}
     dependencies:
       '@sapphire/stopwatch': 1.5.2
       '@sapphire/utilities': 3.15.3
-      bullmq: 3.15.8
+      bullmq: 5.1.3
       tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
@@ -2695,14 +2695,15 @@ packages:
       semver: 7.5.4
     dev: true
 
-  /bullmq@3.15.8:
-    resolution: {integrity: sha512-k3uimHGhl5svqD7SEak+iI6c5DxeLOaOXzCufI9Ic0ST3nJr69v71TGR4cXCTXdgCff3tLec5HgoBnfyWjgn5A==}
+  /bullmq@4.17.0:
+    resolution: {integrity: sha512-URnHgB01rlCP8RTpmW3kFnvv3vdd2aI1OcBMYQwnqODxGiJUlz9MibDVXE83mq7ee1eS1IvD9lMQqGszX6E5Pw==}
     dependencies:
       cron-parser: 4.9.0
       glob: 8.1.0
       ioredis: 5.3.2
       lodash: 4.17.21
       msgpackr: 1.10.1
+      node-abort-controller: 3.1.1
       semver: 7.5.4
       tslib: 2.6.2
       uuid: 9.0.1
@@ -2710,8 +2711,8 @@ packages:
       - supports-color
     dev: false
 
-  /bullmq@4.17.0:
-    resolution: {integrity: sha512-URnHgB01rlCP8RTpmW3kFnvv3vdd2aI1OcBMYQwnqODxGiJUlz9MibDVXE83mq7ee1eS1IvD9lMQqGszX6E5Pw==}
+  /bullmq@5.1.3:
+    resolution: {integrity: sha512-safpGwiwKHsNPW01Wk8FPxdWbPS2mA0HZKqIhdQB10J4wWRSDWPeQE2p+YYnAmqEsk0FwJdZnzVcwCfn7w5cVA==}
     dependencies:
       cron-parser: 4.9.0
       glob: 8.1.0
