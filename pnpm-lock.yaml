@@ -36,8 +36,8 @@ importers:
         specifier: ^5.2.0
         version: 5.2.0
       '@sapphire/plugin-hmr':
-        specifier: ^2.0.3
-        version: 2.0.3
+        specifier: ^3.0.0
+        version: 3.0.1
       '@sapphire/plugin-logger':
         specifier: ^3.0.7
         version: 3.0.7
@@ -1562,8 +1562,8 @@ packages:
       undici: 5.28.2
     dev: false
 
-  /@sapphire/plugin-hmr@2.0.3:
-    resolution: {integrity: sha512-SYOep2Oi9VU8X7WFC4oiMYMIEQeVo7r4ygc+88HBvr4HhmkRccdg3+ACT1k4bt6uBBIgPsG/75hLYNTqezy02g==}
+  /@sapphire/plugin-hmr@3.0.1:
+    resolution: {integrity: sha512-+7hs3tPu5m3B/7heXPXCfWj131OVFmaHDYETOME8CS/VYQ+szIJT+n5qAszyrrdma/Ky3UL4O6q73eh5luT/Rg==}
     engines: {node: '>=v18', npm: '>=7'}
     dependencies:
       chokidar: 3.5.3

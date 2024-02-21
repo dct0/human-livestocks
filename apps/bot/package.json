@@ -12,7 +12,7 @@
     "@sapphire/framework": "^4.8.5",
     "@sapphire/pieces": "^3.10.0",
     "@sapphire/plugin-api": "^5.2.0",
-    "@sapphire/plugin-hmr": "^2.0.3",
+    "@sapphire/plugin-hmr": "^3.0.0",
     "@sapphire/plugin-logger": "^3.0.7",
     "@sapphire/plugin-scheduled-tasks": "^8.1.0",
     "bullmq": "^4.17.0",
