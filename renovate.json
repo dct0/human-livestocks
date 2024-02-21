@@ -3,7 +3,8 @@
   "extends": ["config:recommended"],
   "packageRules": [
     {
-      "matchPackagePrefixes": ["@sapphire"]
+      "matchPackagePrefixes": ["@sapphire"],
+      "groupName": "sapphire packages"
     }
   ]
 }
