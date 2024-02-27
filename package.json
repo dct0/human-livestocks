@@ -19,6 +19,6 @@
     "tsconfig": "workspace:*",
     "turbo": "^1.11.3"
   },
-  "packageManager": "pnpm@8.15.3",
+  "packageManager": "pnpm@8.15.4",
   "name": "human-livestocks"
 }
