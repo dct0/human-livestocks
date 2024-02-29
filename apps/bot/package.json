@@ -15,7 +15,7 @@
     "@sapphire/plugin-hmr": "^3.0.0",
     "@sapphire/plugin-logger": "^4.0.0",
     "@sapphire/plugin-scheduled-tasks": "^10.0.0",
-    "bullmq": "^4.17.0",
+    "bullmq": "^5.0.0",
     "db": "workspace:*",
     "decimal.js": "^10.4.3",
     "discord-api-types": "0.37.71",
