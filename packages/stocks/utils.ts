@@ -47,8 +47,9 @@ export const calculateNewRate = (
 
   const reversionAmount = calculateReversion(deviation, REVERSION_FACTOR);
   const biasAmount = calculateBias(rmsScore, deviation);
+  console.log(rmsScore, reversionAmount, biasAmount);
 
-  const newRate = reversionAmount.add(biasAmount);
+  const newRate = rmsScore.sub(reversionAmount.add(biasAmount));
 
   return newRate;
 };
