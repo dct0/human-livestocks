@@ -117,7 +117,7 @@ importers:
     dependencies:
       '@icons-pack/react-simple-icons':
         specifier: ^9.3.0
-        version: 9.3.0(react@18.2.0)
+        version: 9.4.0(react@18.2.0)
       '@next-auth/prisma-adapter':
         specifier: ^1.0.7
         version: 1.0.7(@prisma/client@5.10.2)(next-auth@4.24.7)
@@ -964,8 +964,8 @@ packages:
     resolution: {integrity: sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==}
     dev: true
 
-  /@icons-pack/react-simple-icons@9.3.0(react@18.2.0):
-    resolution: {integrity: sha512-e2VRDFrhI9rCkEdkuAUhf/Ool0cwusWnwKqMACbIRMLHXxnHp1SdnGlRaEEjDeF4R0pQaEkmVNs2x2vn1sl+7A==}
+  /@icons-pack/react-simple-icons@9.4.0(react@18.2.0):
+    resolution: {integrity: sha512-fZtC4Zv53hE+IQE2dJlFt3EB6UOifwTrUNMuEu4hSXemtqMahd05Dpvj2K0j2ewVc+j/ibavud3xjfaMB2Nj7g==}
     peerDependencies:
       react: ^16.13 || ^17 || ^18
     dependencies:
