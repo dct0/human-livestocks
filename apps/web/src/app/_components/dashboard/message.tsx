@@ -105,7 +105,7 @@ export default function Message({
           Score: {calculatedScore.toFixed(2)}
         </Badge>
         <Link
-          href={`https://discord.com/channels/${guildId}/${channelId}/${id}`}
+          href={`discord://discord.com/channels/${guildId}/${channelId}/${id}`}
           target="_blank"
         >
           <Icon
