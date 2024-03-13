@@ -17,7 +17,7 @@ export default function Home() {
             Your bests, your blunders. As a number.
           </Subtitle>
           <Link
-            className="!mt-4 inline-flex items-center justify-center rounded-tremor-default bg-icon-discord px-4 py-2 text-sm font-medium text-white shadow-tremor-input outline-none hover:bg-icon-discord-hover"
+            className="!mt-4 inline-flex items-center justify-center rounded-tremor-default bg-icon-discord px-4 py-2 text-sm font-medium text-white shadow-tremor-input outline-none transition hover:bg-icon-discord-hover"
             href={env.NEXT_PUBLIC_INVITE_URL}
             target="_blank"
           >

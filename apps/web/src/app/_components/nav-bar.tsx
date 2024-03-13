@@ -11,7 +11,7 @@ export default async function NavBar() {
   return (
     <nav className="fixed top-0 z-50 flex h-20 w-full items-center border-b border-tremor-border bg-tremor-brand-muted px-4 md:px-8 dark:border-dark-tremor-border dark:bg-dark-tremor-brand-faint">
       <div className="flex-1">
-        <Title className="text-xl font-black tracking-tighter md:text-3xl">
+        <Title className="text-xl font-black tracking-tighter transition-all duration-500 hover:tracking-normal md:text-3xl">
           <Link href="/" className="text-tremor-brand">
             Human Livestocks 🐄
           </Link>
