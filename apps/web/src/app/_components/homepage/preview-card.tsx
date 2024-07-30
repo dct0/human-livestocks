@@ -55,7 +55,7 @@ export default function PreviewCard({
         categories={[data.user]}
       />
 
-      <div className="absolute right-[5%] top-[27%] flex flex-col justify-between gap-4 rounded-lg bg-slate-700/50 p-4 backdrop-blur-sm transition hover:bg-slate-700 lg:top-1/3 lg:flex-row">
+      <div className="absolute right-[5%] top-[27%] flex flex-col justify-between gap-4 rounded-lg border border-tremor-border bg-tremor-background-muted/50 p-4 backdrop-blur-sm lg:top-1/3 lg:flex-row dark:bg-dark-tremor-background-muted/50">
         <div className="flex">
           <SiDiscord
             className="relative mr-4 mt-0.5 h-10 w-10 min-w-fit overflow-hidden rounded-full bg-tremor-brand p-2"
@@ -71,11 +71,12 @@ export default function PreviewCard({
                 {data.timestamp}
               </span>
             </p>
-            <p className="text-gray-100">{data.message}</p>
-            <div className="w-fit rounded-md bg-slate-900 px-2 font-semibold text-tremor-content-emphasis dark:bg-gray-800 dark:text-dark-tremor-content-emphasis">
-              <p>
-                {data.reaction} {data.reactionCount}
-              </p>
+            <p className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
+              {data.message}
+            </p>
+            <div className="flex w-fit items-center gap-1 rounded-full bg-gray-200 px-2 px-2 py-1 text-xs font-semibold text-tremor-content dark:bg-gray-800 dark:text-dark-tremor-content-emphasis">
+              <span>{data.reaction}</span>
+              <span>{data.reactionCount}</span>
             </div>
           </div>
         </div>

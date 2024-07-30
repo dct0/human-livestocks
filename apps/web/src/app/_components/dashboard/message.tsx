@@ -90,7 +90,7 @@ export default function Message({
             {reactions.map((reaction) => (
               <div
                 key={reaction.discriminator}
-                className="flex items-center gap-1 rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-tremor-content-emphasis dark:bg-gray-800 dark:text-dark-tremor-content-emphasis"
+                className="flex items-center gap-1 rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-tremor-content dark:bg-gray-800 dark:text-dark-tremor-content-emphasis"
               >
                 <span>{reaction.discriminator}</span>
                 <span>{reaction.count}</span>
