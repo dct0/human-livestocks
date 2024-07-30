@@ -18,7 +18,7 @@ export default function NavLink({
     <Link
       {...props}
       className={cn(
-        "rounded-full border px-4 py-2 text-tremor-default text-tremor-content transition hover:bg-tremor-brand-faint/20 dark:text-dark-tremor-content-emphasis",
+        "rounded-full border bg-tremor-background px-4 py-2 text-tremor-default text-tremor-content transition hover:bg-tremor-background-subtle dark:bg-dark-tremor-background dark:text-dark-tremor-content-emphasis dark:hover:bg-dark-tremor-background-subtle",
         {
           "border-tremor-brand bg-dark-tremor-brand-faint dark:border-dark-tremor-brand":
             isActive,
