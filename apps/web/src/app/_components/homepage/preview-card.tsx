@@ -2,6 +2,8 @@ import React from "react";
 import { Badge } from "@tremor/react";
 import { SiDiscord } from "@icons-pack/react-simple-icons";
 import { LineChart } from "@tremor/react";
+import { type ClassNameValue } from "tailwind-merge";
+import { cn } from "@/lib";
 
 const data = {
   user: "John Doe",
@@ -34,9 +36,18 @@ const data = {
   ],
 };
 
-export default function PreviewCard() {
+export default function PreviewCard({
+  className,
+}: {
+  className?: ClassNameValue;
+}) {
   return (
-    <div className="relative ml-0 w-full max-w-lg scale-90 rounded-xl border border-tremor-border p-4 md:scale-100">
+    <div
+      className={cn(
+        "relative w-full rounded-xl border border-tremor-border p-4",
+        className,
+      )}
+    >
       <LineChart
         className="h-64"
         data={data.chart ?? []}
@@ -44,7 +55,7 @@ export default function PreviewCard() {
         categories={[data.user]}
       />
 
-      <div className="absolute left-8 top-1/3 space-y-4 rounded-lg bg-slate-700 p-4 lg:flex">
+      <div className="absolute right-[5%] top-[27%] flex flex-col justify-between gap-4 rounded-lg bg-slate-700/50 p-4 backdrop-blur-sm transition hover:bg-slate-700 lg:top-1/3 lg:flex-row">
         <div className="flex">
           <SiDiscord
             className="relative mr-4 mt-0.5 h-10 w-10 min-w-fit overflow-hidden rounded-full bg-tremor-brand p-2"
@@ -70,7 +81,7 @@ export default function PreviewCard() {
         </div>
 
         <Badge
-          className="mr-2 h-fit lg:ml-8"
+          className="h-fit w-full md:w-auto"
           color={data.score > 0 ? "green" : "red"}
         >
           Score: {data.score}

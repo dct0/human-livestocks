@@ -8,7 +8,7 @@ import PreviewCard from "@/app/_components/homepage/preview-card";
 export default function Home() {
   return (
     <>
-      <div className="flex max-w-5xl flex-1 flex-col-reverse items-center justify-center space-y-8 self-center md:flex-row md:space-x-8 md:px-8">
+      <div className="flex max-w-5xl flex-1 flex-col-reverse items-center justify-center gap-8 self-center md:flex-row md:gap-8 md:px-8">
         <div className="space-y-3 text-tremor-content-emphasis md:space-y-8 dark:text-dark-tremor-content-emphasis">
           <h1 className="text-3xl font-bold tracking-tight md:text-6xl">
             You are the commodity
