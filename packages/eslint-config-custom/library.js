@@ -30,5 +30,8 @@ module.exports = {
       },
     },
   },
+  rules: {
+    "@typescript-eslint/restrict-template-expressions": "off",
+  },
   ignorePatterns: ["node_modules/", "dist/", "*.disabled"],
 };

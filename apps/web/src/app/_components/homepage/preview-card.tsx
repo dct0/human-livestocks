@@ -74,7 +74,7 @@ export default function PreviewCard({
             <p className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
               {data.message}
             </p>
-            <div className="flex w-fit items-center gap-1 rounded-full bg-gray-200 px-2 px-2 py-1 text-xs font-semibold text-tremor-content dark:bg-gray-800 dark:text-dark-tremor-content-emphasis">
+            <div className="flex w-fit items-center gap-1 rounded-full bg-gray-200 px-2 py-1 text-xs font-semibold text-tremor-content dark:bg-gray-800 dark:text-dark-tremor-content-emphasis">
               <span>{data.reaction}</span>
               <span>{data.reactionCount}</span>
             </div>
